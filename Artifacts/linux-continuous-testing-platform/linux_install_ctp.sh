@@ -1,19 +1,33 @@
 #!/bin/bash
+echo "Installing Oracle JDK"
+echo "====================="
 
-set -e
+if [ ! -d /usr/downloads ]; then
+   mkdir /usr/downloads
+fi
 
-if [ -f /usr/bin/apt ] ; then
-    echo "Using APT package manager"
+if [ ! -f /usr/downloads/jdk-8u92-linux-x64.tar.gz ]; then
+   wget --no-check-certificate --no-cookies --header "Cookie: oraclelicense=accept-securebackup-cookie" -O /usr/downloads/jdk-8u92-linux-x64.tar.gz http://download.oracle.com/otn-pub/java/jdk/8u92-b14/jdk-8u92-linux-x64.tar.gz
+fi
 
-    apt-get -y update
+if [ -d /usr/oraclejdk ]; then
+   rm -rf /usr/oraclejdk
+fi
+mkdir /usr/oraclejdk
+tar -xvf /usr/downloads/jdk-8u92-linux-x64.tar.gz -C /usr/oraclejdk
 
-    apt-get -y install tomcat
 
-elif [ -f /usr/bin/yum ] ; then 
-    echo "Using YUM package manager"
+touch ~/.bash_profile
+echo "export PATH=$PATH:/usr/oraclejdk/jdk1.8.0_92/bin" > ~/.bash_profile
+source ~/.bash_profile
 
-    yum -y update
-    yum clean all
+if type -p java; then
+   version=$(java -version 2>&1 | awk -F '"' '/version/ {print $2}')
+   echo $version
+fi
 
-    yum install -y tomcat
+if [[ "$version" = "1.8.0_92"  ]]; then
+   echo "Oracle JDK installation complete"
+else 
+   echo "Oracle JDK installation failed" 
 fi
