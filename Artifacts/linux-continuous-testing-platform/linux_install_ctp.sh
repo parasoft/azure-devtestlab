@@ -31,3 +31,36 @@ if [[ "$version" = "1.8.0_92"  ]]; then
 else 
    echo "Oracle JDK installation failed" 
 fi
+
+echo "Download CTP distribution"
+curl --silent --location --remote-name http://parasoft.westus.cloudapp.azure.com/builds/parasoft_environment_manager_2.7.5.zip
+
+echo "Install zip and unzip"
+if [ -f /usr/bin/apt ] ; then
+    echo "Using APT package manager"
+
+    apt-get -y update
+
+    apt-get -y install zip unzip
+
+elif [ -f /usr/bin/yum ] ; then 
+    echo "Using YUM package manager"
+
+    yum -y update
+    yum clean all
+
+    yum install -y zip unzip
+fi
+
+echo "Unzip CTP distribution"
+mkdir ctp_dist
+unzip parasoft_environment_manager_2.7.5.zip -d ctp_dist/
+
+echo "Copy CTP war files to Tomcat webapps"
+#cp ctp_dist/pstsec.war $CATALINA_HOME/webapps/
+#cp ctp_dist/licenseserver.war $CATALINA_HOME/webapps/
+#cp ctp_dist/em.war $CATALINA_HOME/webapps/
+
+echo "Remove temporary installation files"
+rm -rf ctp_dist
+rm parasoft_environment_manager_2.7.5.zip
