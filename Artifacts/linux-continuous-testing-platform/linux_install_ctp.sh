@@ -17,8 +17,8 @@ mkdir /usr/oraclejdk
 tar -xvf /usr/downloads/jdk-8u92-linux-x64.tar.gz -C /usr/oraclejdk
 
 
-touch ~/.bash_profile
-echo "export PATH=$PATH:/usr/oraclejdk/jdk1.8.0_92/bin" > ~/.bash_profile
+touch /etc/profile.d/java.sh
+echo "export PATH=$PATH:/usr/oraclejdk/jdk1.8.0_92/bin" > /etc/profile.d/java.sh
 source ~/.bash_profile
 
 if type -p java; then
