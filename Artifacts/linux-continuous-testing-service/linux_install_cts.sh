@@ -16,10 +16,7 @@ fi
 mkdir /usr/oraclejdk
 tar -xvf /usr/downloads/jdk-8u92-linux-x64.tar.gz -C /usr/oraclejdk
 
-
-touch /etc/profile.d/java.sh
-echo "export PATH=$PATH:/usr/oraclejdk/jdk1.8.0_92/bin" > /etc/profile.d/java.sh
-source ~/.bash_profile
+echo "export JAVA_HOME=/usr/oraclejdk/jdk1.8.0_92/bin" > /etc/profile.d/java.sh
 
 if type -p java; then
    version=$(java -version 2>&1 | awk -F '"' '/version/ {print $2}')
