@@ -30,6 +30,17 @@ else
    echo "Oracle JDK installation failed" 
 fi
 
+echo "Installing Tomcat 8"
+echo "====================="
+
+echo "Downloading and unpacking tomcat 8 tar"
+curl --silent --location --remote-name http://mirror.nexcess.net/apache/tomcat/tomcat-8/v8.0.35/bin/apache-tomcat-8.0.35.tar.gz
+sudo tar xvzf apache-tomcat-8.0.35.tar.gz
+sudo mv apache-tomcat-8.0.35 /opt/tomcat
+echo "cleanup"
+sudo rm apache-tomcat-8.0.35.tar.gz
+echo "Tomcat 8 installation finished"
+
 echo "Download CTP distribution"
 curl --silent --location --remote-name http://parasoft.westus.cloudapp.azure.com/builds/parasoft_environment_manager_2.7.5.zip
 
