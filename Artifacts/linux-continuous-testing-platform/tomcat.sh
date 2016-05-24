@@ -8,7 +8,7 @@ export CATALINA_HOME=/opt/tomcat
 
 case $1 in
 start)
-sh //opt/tomcat/bin/startup.sh
+sh /opt/tomcat/bin/startup.sh
 ;;
 stop) 
 sh /opt/tomcat/bin/shutdown.sh
