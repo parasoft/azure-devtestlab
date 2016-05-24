@@ -11,6 +11,7 @@
   "parameters": {
   },
   "runCommand": {
+    "commandToExecute": "[mv tomcat.sh /etc/init.d/]",
     "commandToExecute": "['sh linux_install_ctp.sh']"
   }
 }

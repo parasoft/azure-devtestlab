@@ -37,6 +37,11 @@ echo "Downloading and unpacking tomcat 8 tar"
 curl --silent --location --remote-name http://mirror.nexcess.net/apache/tomcat/tomcat-8/v8.0.35/bin/apache-tomcat-8.0.35.tar.gz
 sudo tar xvzf apache-tomcat-8.0.35.tar.gz
 sudo mv apache-tomcat-8.0.35 /opt/tomcat
+echo "tomcat 8 environment setup"
+export CATALINA_HOME=/opt/tomcat
+$CATALINA_HOME/bin/startup.sh
+sudo chmod 755 /etc/init.d/tomcat.sh
+sudo update-rc.d /etc/init.d/tomcat.sh defaults
 echo "cleanup"
 sudo rm apache-tomcat-8.0.35.tar.gz
 echo "Tomcat 8 installation finished"
