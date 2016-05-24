@@ -42,7 +42,7 @@ export CATALINA_HOME=/opt/tomcat
 $CATALINA_HOME/bin/startup.sh
 sudo cp tomcat.sh /etc/init.d/
 sudo chmod 755 /etc/init.d/tomcat.sh
-sudo update-rc.d /etc/init.d/tomcat.sh defaults
+sudo update-rc.d tomcat.sh defaults
 echo "cleanup"
 sudo rm apache-tomcat-8.0.35.tar.gz
 echo "Tomcat 8 installation finished"
