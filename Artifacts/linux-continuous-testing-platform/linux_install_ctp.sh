@@ -40,6 +40,7 @@ sudo mv apache-tomcat-8.0.35 /opt/tomcat
 echo "tomcat 8 environment setup"
 export CATALINA_HOME=/opt/tomcat
 $CATALINA_HOME/bin/startup.sh
+sudo mv tomcat.sh /etc/init.d/
 sudo chmod 755 /etc/init.d/tomcat.sh
 sudo update-rc.d /etc/init.d/tomcat.sh defaults
 echo "cleanup"
