@@ -74,6 +74,7 @@ cp ctp_dist/licenseserver.war $CATALINA_HOME/webapps/
 mkdir $CATALINA_HOME/webapps/em
 unzip ctp_dist/em.war -d $CATALINA_HOME/webapps/em/
 cp license $CATALINA_HOME/webapps/em/
+cp database.properties $CATALINA_HOME/webapps/em/WEB-INF/classes/META-INF/spring/
 
 echo "Remove temporary installation files"
 rm -rf ctp_dist
