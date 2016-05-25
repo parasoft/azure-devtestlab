@@ -34,17 +34,18 @@ echo "Installing Tomcat 8"
 echo "====================="
 
 echo "Downloading and unpacking tomcat 8 tar"
-curl --silent --location --remote-name http://mirror.nexcess.net/apache/tomcat/tomcat-8/v8.0.35/bin/apache-tomcat-8.0.35.tar.gz
-sudo tar xvzf apache-tomcat-8.0.35.tar.gz
-sudo mv apache-tomcat-8.0.35 /opt/tomcat
-echo "tomcat 8 environment setup"
+TOMCAT_VERSION=8.0.35
+curl --silent --location --remote-name http://mirror.nexcess.net/apache/tomcat/tomcat-8/v$TOMCAT_VERSION/bin/apache-tomcat-$TOMCAT_VERSION.tar.gz
+tar xvzf apache-tomcat-$TOMCAT_VERSION.tar.gz
+mv apache-tomcat-$TOMCAT_VERSION /opt/tomcat
+echo "Tomcat 8 environment setup"
 export CATALINA_HOME=/opt/tomcat
 $CATALINA_HOME/bin/startup.sh
-sudo cp tomcat.sh /etc/init.d/
-sudo chmod 755 /etc/init.d/tomcat.sh
-sudo update-rc.d tomcat.sh defaults
+cp tomcat.sh /etc/init.d/
+chmod 755 /etc/init.d/tomcat.sh
+update-rc.d tomcat.sh defaults
 echo "cleanup"
-sudo rm apache-tomcat-8.0.35.tar.gz
+rm apache-tomcat-$TOMCAT_VERSION.tar.gz
 echo "Tomcat 8 installation finished"
 
 echo "Download CTP distribution"
@@ -69,9 +70,9 @@ mkdir ctp_dist
 unzip parasoft_environment_manager_2.7.5.zip -d ctp_dist/
 
 echo "Copy CTP war files to Tomcat webapps"
-#cp ctp_dist/pstsec.war $CATALINA_HOME/webapps/
-#cp ctp_dist/licenseserver.war $CATALINA_HOME/webapps/
-#cp ctp_dist/em.war $CATALINA_HOME/webapps/
+cp ctp_dist/pstsec.war $CATALINA_HOME/webapps/
+cp ctp_dist/licenseserver.war $CATALINA_HOME/webapps/
+cp ctp_dist/em.war $CATALINA_HOME/webapps/
 
 echo "Remove temporary installation files"
 rm -rf ctp_dist
