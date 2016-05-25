@@ -72,7 +72,7 @@ echo "Copy CTP war files to Tomcat webapps"
 cp ctp_dist/pstsec.war $CATALINA_HOME/webapps/
 cp ctp_dist/licenseserver.war $CATALINA_HOME/webapps/
 mkdir $CATALINA_HOME/webapps/em
-unzip ctp_dist/em.war -d $CATALINA_HOME/webapps/
+unzip ctp_dist/em.war -d $CATALINA_HOME/webapps/em/
 cp license $CATALINA_HOME/webapps/em/
 
 echo "Remove temporary installation files"
