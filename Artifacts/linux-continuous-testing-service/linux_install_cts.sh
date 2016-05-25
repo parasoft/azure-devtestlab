@@ -118,22 +118,22 @@ rm parasoft_continuous_testing_service_9.9.5.war
 
 echo "Configure Tomcat to deploy CTS webapp"
 echo "<Context docBase=\"$VIRTUALIZE_HOME\" path=\"\" reloadable=\"true\" />" > $CATALINA_HOME/conf/Catalina/localhost/ROOT.xml
-sed -i 's/8080/9080/g' $VIRTUALIZE_HOME/WEB-INF/config.properties
-sed -i 's/8443/9443/g' $VIRTUALIZE_HOME/WEB-INF/config.properties
-sed -i 's/8080/9080/g' $CATALINA_HOME/conf/server.xml
-sed -i 's/8443/9443/g' $CATALINA_HOME/conf/server.xml
-sed -i 's/8009/0/g' $CATALINA_HOME/conf/server.xml
+sed -i "s/8080/9080/g" $VIRTUALIZE_HOME/WEB-INF/config.properties
+sed -i "s/8443/9443/g" $VIRTUALIZE_HOME/WEB-INF/config.properties
+sed -i "s/8080/9080/g" $CATALINA_HOME/conf/server.xml
+sed -i "s/8443/9443/g" $CATALINA_HOME/conf/server.xml
+sed -i "s/8009/0/g" $CATALINA_HOME/conf/server.xml
 
-sed -i 's/^#env.manager.server.name=.*/env.manager.server.name=$VIRTUALIZE_SERVER_NAME/' $VIRTUALIZE_HOME/WEB-INF/config.properties
-sed -i 's!^#env.manager.server=.*!env.manager.server=$CTP_BASE_URL!' $VIRTUALIZE_HOME/WEB-INF/config.properties
-sed -i 's/^#env.manager.username=.*/env.manager.username=$CTP_USERNAME/' $VIRTUALIZE_HOME/WEB-INF/config.properties
-sed -i 's/^#env.manager.password=.*/env.manager.password=$CTP_PASSWORD/' $VIRTUALIZE_HOME/WEB-INF/config.properties
-sed -i 's/^#env.manager.notify=.*/env.manager.notify=true/' $VIRTUALIZE_HOME/WEB-INF/config.properties
-sed -i 's/^#virtualize.license.use_network=.*/virtualize.license.use_network=true/' $VIRTUALIZE_HOME/WEB-INF/config.properties
-sed -i 's/^#virtualize.license.network.edition=.*/virtualize.license.network.edition=custom_edition/' $VIRTUALIZE_HOME/WEB-INF/config.properties
-sed -i 's/^#virtualize.license.custom_edition_features=.*/virtualize.license.custom_edition_features=Server, Validate, Message Packs, Unlimited Hits\/Day/' $VIRTUALIZE_HOME/WEB-INF/config.properties
-sed -i 's/^#license.network.host=.*/license.network.host=$CTP_HOST/' $VIRTUALIZE_HOME/WEB-INF/config.properties
-sed -i 's/^#license.network.port=.*/license.network.port=2002/' $VIRTUALIZE_HOME/WEB-INF/config.properties
+sed -i "s/^#env.manager.server.name=.*/env.manager.server.name=$VIRTUALIZE_SERVER_NAME/" $VIRTUALIZE_HOME/WEB-INF/config.properties
+sed -i "s!^#env.manager.server=.*!env.manager.server=$CTP_BASE_URL!" $VIRTUALIZE_HOME/WEB-INF/config.properties
+sed -i "s/^#env.manager.username=.*/env.manager.username=$CTP_USERNAME/" $VIRTUALIZE_HOME/WEB-INF/config.properties
+sed -i "s/^#env.manager.password=.*/env.manager.password=$CTP_PASSWORD/" $VIRTUALIZE_HOME/WEB-INF/config.properties
+sed -i "s/^#env.manager.notify=.*/env.manager.notify=true/" $VIRTUALIZE_HOME/WEB-INF/config.properties
+sed -i "s/^#virtualize.license.use_network=.*/virtualize.license.use_network=true/" $VIRTUALIZE_HOME/WEB-INF/config.properties
+sed -i "s/^#virtualize.license.network.edition=.*/virtualize.license.network.edition=custom_edition/" $VIRTUALIZE_HOME/WEB-INF/config.properties
+sed -i "s/^#virtualize.license.custom_edition_features=.*/virtualize.license.custom_edition_features=Server, Validate, Message Packs, Unlimited Hits\/Day/" $VIRTUALIZE_HOME/WEB-INF/config.properties
+sed -i "s/^#license.network.host=.*/license.network.host=$CTP_HOST/" $VIRTUALIZE_HOME/WEB-INF/config.properties
+sed -i "s/^#license.network.port=.*/license.network.port=2002/" $VIRTUALIZE_HOME/WEB-INF/config.properties
 
 echo "Startup Tomcat"
 $CATALINA_HOME/bin/startup.sh
