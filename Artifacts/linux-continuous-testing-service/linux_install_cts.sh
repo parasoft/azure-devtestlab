@@ -85,9 +85,29 @@ tar xvzf apache-tomcat-$TOMCAT_VERSION.tar.gz
 mv apache-tomcat-$TOMCAT_VERSION /opt/tomcat
 echo "Tomcat 8 environment setup"
 export CATALINA_HOME=/opt/tomcat
-cp tomcat.sh /etc/init.d/
-chmod 755 /etc/init.d/tomcat.sh
-update-rc.d tomcat.sh defaults
+
+if [ -f /bin/systemctl ] ; then
+    echo "Using Systemd to register Tomcat as a service"
+    groupadd tomcat
+    useradd -M -s /bin/nologin -g tomcat -d /opt/tomcat tomcat
+    mkdir -p $CATALINA_HOME/conf/Catalina/localhost
+    chgrp -R tomcat $CATALINA_HOME/conf
+    chmod g+rwx $CATALINA_HOME/conf
+    chmod g+r $CATALINA_HOME/conf/*
+    chown -R tomcat $CATALINA_HOME/webapps/ $CATALINA_HOME/work/ $CATALINA_HOME/temp/ $CATALINA_HOME/logs/
+    chown -R tomcat /usr/local/parasoft/virtualize/
+    cp tomcat.service /etc/systemd/system/tomcat.service
+    systemctl daemon-reload
+    systemctl enable tomcat
+
+elif [ -f /usr/sbin/update-rc.d ] ; then
+    echo "Using Update-rc to register Tomcat as a service"
+
+    cp tomcat.sh /etc/init.d/
+    chmod 755 /etc/init.d/tomcat.sh
+    update-rc.d tomcat.sh defaults
+
+fi
 echo "cleanup"
 rm apache-tomcat-$TOMCAT_VERSION.tar.gz
 echo "Tomcat 8 installation finished"
@@ -137,4 +157,8 @@ sed -i "s/^#license.network.host=.*/license.network.host=$CTP_HOST/" $VIRTUALIZE
 sed -i "s/^#license.network.port=.*/license.network.port=2002/" $VIRTUALIZE_HOME/WEB-INF/config.properties
 
 echo "Startup Tomcat"
-$CATALINA_HOME/bin/startup.sh
+if [ -f /bin/systemctl ] ; then
+    systemctl start tomcat
+else
+    $CATALINA_HOME/bin/startup.sh
+fi
