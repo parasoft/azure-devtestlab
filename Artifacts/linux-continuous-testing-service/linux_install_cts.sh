@@ -113,7 +113,6 @@ curl --silent --location --remote-name http://parasoft.westus.cloudapp.azure.com
 echo "Extract CTS webapp"
 VIRTUALIZE_HOME=/usr/local/parasoft/virtualize
 mkdir -p $VIRTUALIZE_HOME
-mv parasoft_continuous_testing_service_9.9.5.war $VIRTUALIZE_HOME
 unzip parasoft_continuous_testing_service_9.9.5.war -d $VIRTUALIZE_HOME
 rm parasoft_continuous_testing_service_9.9.5.war
 
