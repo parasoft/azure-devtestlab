@@ -22,9 +22,23 @@
       "description": "The Virtualize server will register itself with this Environment Manager",
       "allowEmpty": true,
       "defaultValue": "http://ctp.cloudapp.azure.com:8080"
+    },
+    "ctpusername": {
+      "type": "string",
+      "displayName": "Service account username",
+      "description": "The Virtualize server use this account username when communicating with Environment Manager",
+      "allowEmpty": true,
+      "defaultValue": "admin"
+    },
+    "ctppassword": {
+      "type": "string",
+      "displayName": "Service account password",
+      "description": "The Virtualize server use this account password when communicating with Environment Manager",
+      "allowEmpty": true,
+      "defaultValue": "admin"
     }
   },
   "runCommand": {
-    "commandToExecute": "[concat('sh linux_install_cts.sh', ' \"', parameters('name'), '\" \"', parameters('ctpurl'), '\"')]"
+    "commandToExecute": "[concat('sh linux_install_cts.sh', ' \"', parameters('name'), '\" \"', parameters('ctpurl'), '\" \"', parameters('ctpusername'), '\" \"', parameters('ctppassword'), '\"')]"
   }
 }

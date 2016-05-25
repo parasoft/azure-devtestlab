@@ -1,4 +1,49 @@
 #!/bin/bash
+
+###
+# Arguments:
+#
+# $1    Virtualize server name
+# $2    CTP base URL
+# $3    CTP username
+# $4    CTP password
+#
+###
+
+VIRTUALIZE_SERVER_NAME=$1
+CTP_BASE_URL=$2
+CTP_USERNAME=$3
+CTP_PASSWORD=$4
+
+# parse the URL in bash from http://stackoverflow.com/questions/6174220/parse-url-in-shell-script
+# extract the protocol
+proto="`echo $CTP_BASE_URL | grep '://' | sed -e's,^\(.*://\).*,\1,g'`"
+# remove the protocol
+url=`echo $CTP_BASE_URL | sed -e s,$proto,,g`
+
+# extract the user and password (if any)
+userpass="`echo $url | grep @ | cut -d@ -f1`"
+pass=`echo $userpass | grep : | cut -d: -f2`
+if [ -n "$pass" ]; then
+    user=`echo $userpass | grep : | cut -d: -f1`
+else
+    user=$userpass
+fi
+
+# extract the host -- updated
+hostport=`echo $url | sed -e s,$userpass@,,g | cut -d/ -f1`
+port=`echo $hostport | grep : | cut -d: -f2`
+if [ -n "$port" ]; then
+    host=`echo $hostport | grep : | cut -d: -f1`
+else
+    host=$hostport
+fi
+
+# extract the path (if any)
+path="`echo $url | grep / | cut -d/ -f2-`"
+
+CTP_HOST=$host
+
 echo "Installing Oracle JDK"
 echo "====================="
 
@@ -30,6 +75,38 @@ else
    echo "Oracle JDK installation failed" 
 fi
 
+echo "Installing Tomcat 8"
+echo "====================="
+
+echo "Downloading and unpacking tomcat 8 tar"
+TOMCAT_VERSION=8.0.35
+curl --silent --location --remote-name http://mirror.nexcess.net/apache/tomcat/tomcat-8/v$TOMCAT_VERSION/bin/apache-tomcat-$TOMCAT_VERSION.tar.gz
+tar xvzf apache-tomcat-$TOMCAT_VERSION.tar.gz
+mv apache-tomcat-$TOMCAT_VERSION /opt/tomcat
+echo "Tomcat 8 environment setup"
+export CATALINA_HOME=/opt/tomcat
+cp tomcat.sh /etc/init.d/
+chmod 755 /etc/init.d/tomcat.sh
+update-rc.d tomcat.sh defaults
+echo "cleanup"
+rm apache-tomcat-$TOMCAT_VERSION.tar.gz
+echo "Tomcat 8 installation finished"
+
+echo "Install zip and unzip"
+if [ -f /usr/bin/apt ] ; then
+    echo "Using APT package manager"
+
+    apt-get -y install zip unzip
+
+elif [ -f /usr/bin/yum ] ; then 
+    echo "Using YUM package manager"
+
+    yum clean all
+
+    yum install -y zip unzip
+fi
+
+
 echo "Download CTS distribution"
 curl --silent --location --remote-name http://parasoft.westus.cloudapp.azure.com/builds/parasoft_continuous_testing_service_9.9.5.war
 
@@ -37,14 +114,27 @@ echo "Extract CTS webapp"
 VIRTUALIZE_HOME=/usr/local/parasoft/virtualize
 mkdir -p $VIRTUALIZE_HOME
 mv parasoft_continuous_testing_service_9.9.5.war $VIRTUALIZE_HOME
-cd $VIRTUALIZE_HOME
-$JAVA_HOME/bin/jar -xf parasoft_continuous_testing_service_9.9.5.war
+unzip parasoft_continuous_testing_service_9.9.5.war -d $VIRTUALIZE_HOME
 rm parasoft_continuous_testing_service_9.9.5.war
 
 echo "Configure Tomcat to deploy CTS webapp"
-#echo "<Context docBase=\"$VIRTUALIZE_HOME\" path=\"\" reloadable=\"true\" />" > $CATALINA_HOME/conf/Catalina/localhost/ROOT.xml
-#sed -i 's/8080/9080/g' $VIRTUALIZE_HOME/WEB-INF/config.properties \
-#sed -i 's/8443/9443/g' $VIRTUALIZE_HOME/WEB-INF/config.properties \
-#sed -i 's/8080/9080/g' $CATALINA_HOME/conf/server.xml \
-#sed -i 's/8443/9443/g' $CATALINA_HOME/conf/server.xml \
-#sed -i 's/8009/0/g' $CATALINA_HOME/conf/server.xml
+echo "<Context docBase=\"$VIRTUALIZE_HOME\" path=\"\" reloadable=\"true\" />" > $CATALINA_HOME/conf/Catalina/localhost/ROOT.xml
+sed -i 's/8080/9080/g' $VIRTUALIZE_HOME/WEB-INF/config.properties
+sed -i 's/8443/9443/g' $VIRTUALIZE_HOME/WEB-INF/config.properties
+sed -i 's/8080/9080/g' $CATALINA_HOME/conf/server.xml
+sed -i 's/8443/9443/g' $CATALINA_HOME/conf/server.xml
+sed -i 's/8009/0/g' $CATALINA_HOME/conf/server.xml
+
+sed -i 's/^#env.manager.server.name=.*/env.manager.server.name=$VIRTUALIZE_SERVER_NAME/' $VIRTUALIZE_HOME/WEB-INF/config.properties
+sed -i 's!^#env.manager.server=.*!env.manager.server=$CTP_BASE_URL!' $VIRTUALIZE_HOME/WEB-INF/config.properties
+sed -i 's/^#env.manager.username=.*/env.manager.username=$CTP_USERNAME/' $VIRTUALIZE_HOME/WEB-INF/config.properties
+sed -i 's/^#env.manager.password=.*/env.manager.password=$CTP_PASSWORD/' $VIRTUALIZE_HOME/WEB-INF/config.properties
+sed -i 's/^#env.manager.notify=.*/env.manager.notify=true/' $VIRTUALIZE_HOME/WEB-INF/config.properties
+sed -i 's/^#virtualize.license.use_network=.*/virtualize.license.use_network=true/' $VIRTUALIZE_HOME/WEB-INF/config.properties
+sed -i 's/^#virtualize.license.network.edition=.*/virtualize.license.network.edition=custom_edition/' $VIRTUALIZE_HOME/WEB-INF/config.properties
+sed -i 's/^#virtualize.license.custom_edition_features=.*/virtualize.license.custom_edition_features=Server, Validate, Message Packs, Unlimited Hits\/Day/' $VIRTUALIZE_HOME/WEB-INF/config.properties
+sed -i 's/^#license.network.host=.*/license.network.host=$CTP_HOST/' $VIRTUALIZE_HOME/WEB-INF/config.properties
+sed -i 's/^#license.network.port=.*/license.network.port=2002/' $VIRTUALIZE_HOME/WEB-INF/config.properties
+
+echo "Startup Tomcat"
+$CATALINA_HOME/bin/startup.sh
