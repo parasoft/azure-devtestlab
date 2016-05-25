@@ -1,0 +1,7 @@
+em.license.use_network=true
+em.license_enabled=true
+license.autoconf.timeout=20
+license.network.host=localhost
+license.network.port=2002
+license_start_deactivated=false
+license_use_default_port_number=true

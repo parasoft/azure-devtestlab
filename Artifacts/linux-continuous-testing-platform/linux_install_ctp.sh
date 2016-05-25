@@ -40,7 +40,6 @@ tar xvzf apache-tomcat-$TOMCAT_VERSION.tar.gz
 mv apache-tomcat-$TOMCAT_VERSION /opt/tomcat
 echo "Tomcat 8 environment setup"
 export CATALINA_HOME=/opt/tomcat
-$CATALINA_HOME/bin/startup.sh
 cp tomcat.sh /etc/init.d/
 chmod 755 /etc/init.d/tomcat.sh
 update-rc.d tomcat.sh defaults
@@ -72,8 +71,13 @@ unzip parasoft_environment_manager_2.7.5.zip -d ctp_dist/
 echo "Copy CTP war files to Tomcat webapps"
 cp ctp_dist/pstsec.war $CATALINA_HOME/webapps/
 cp ctp_dist/licenseserver.war $CATALINA_HOME/webapps/
-cp ctp_dist/em.war $CATALINA_HOME/webapps/
+mkdir $CATALINA_HOME/webapps/em
+unzip ctp_dist/em.war -d $CATALINA_HOME/webapps/
+cp license $CATALINA_HOME/webapps/em/
 
 echo "Remove temporary installation files"
 rm -rf ctp_dist
 rm parasoft_environment_manager_2.7.5.zip
+
+echo "Startup Tomcat"
+$CATALINA_HOME/bin/startup.sh
