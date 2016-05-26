@@ -1,5 +1,15 @@
 #!/bin/bash
 #
+### BEGIN INIT INFO
+# Provides:          tomcat
+# Required-Start:    $remote_fs $syslog
+# Required-Stop:     $remore_fs $syslog
+# Default-Start:     2 3 5
+# Default-Stop:      2 3 5
+# Short-Description: Apache Tomcat 8
+# Description:       start web server
+### END INIT INFO
+#
 # description: Apache Tomcat init script
 # processname: tomcat  
 # chkconfig: 234 20 80  
