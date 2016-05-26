@@ -58,7 +58,7 @@ start() {
     #/bin/su -p -s /bin/sh $TOMCAT_USER
         if [ `user_exists $TOMCAT_USER` = "1" ]
         then
-                /bin/su - $TOMCAT_USER -c $CATALINA_HOME/bin/startup.sh
+                /bin/su - $TOMCAT_USER -s /bin/sh -c $CATALINA_HOME/bin/startup.sh
         else
                 echo -e "\e[00;31mTomcat user $TOMCAT_USER does not exists. Starting with $(id)\e[00m"
                 sh $CATALINA_HOME/bin/startup.sh

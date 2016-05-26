@@ -91,6 +91,8 @@ mkdir -p $CATALINA_HOME/conf/Catalina/localhost
 chgrp -R tomcat $CATALINA_HOME/conf
 chmod g+rwx $CATALINA_HOME/conf
 chmod g+r $CATALINA_HOME/conf/*
+chgrp tomcat $CATALINA_HOME
+chmod g+rwx $CATALINA_HOME
 chown -R tomcat $CATALINA_HOME/webapps/ $CATALINA_HOME/work/ $CATALINA_HOME/temp/ $CATALINA_HOME/logs/
 
 if [ -f /usr/sbin/update-rc.d ] ; then
@@ -137,7 +139,6 @@ unzip parasoft_continuous_testing_service_9.9.5.war -d $VIRTUALIZE_HOME
 rm parasoft_continuous_testing_service_9.9.5.war
 
 echo "Configure Tomcat to deploy CTS webapp"
-mkdir -p $CATALINA_HOME/conf/Catalina/localhost
 echo "<Context docBase=\"$VIRTUALIZE_HOME\" path=\"\" reloadable=\"true\" />" > $CATALINA_HOME/conf/Catalina/localhost/ROOT.xml
 sed -i "s/8080/9080/g" $VIRTUALIZE_HOME/WEB-INF/config.properties
 sed -i "s/8443/9443/g" $VIRTUALIZE_HOME/WEB-INF/config.properties
