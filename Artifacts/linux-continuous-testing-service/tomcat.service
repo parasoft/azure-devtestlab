@@ -19,5 +19,7 @@ ExecStop=/bin/kill -15 $MAINPID
 User=tomcat
 Group=tomcat
 
+WorkingDirectory=/opt/tomcat
+
 [Install]
 WantedBy=multi-user.target
