@@ -52,7 +52,7 @@ if [ ! -d /usr/downloads ]; then
 fi
 
 if [ ! -f /usr/downloads/jdk-8u92-linux-x64.tar.gz ]; then
-   wget --no-check-certificate --no-cookies --header "Cookie: oraclelicense=accept-securebackup-cookie" -O /usr/downloads/jdk-8u92-linux-x64.tar.gz http://download.oracle.com/otn-pub/java/jdk/8u92-b14/jdk-8u92-linux-x64.tar.gz
+   wget --quiet --no-check-certificate --no-cookies --header "Cookie: oraclelicense=accept-securebackup-cookie" -O /usr/downloads/jdk-8u92-linux-x64.tar.gz http://download.oracle.com/otn-pub/java/jdk/8u92-b14/jdk-8u92-linux-x64.tar.gz
 fi
 
 if [ -d /usr/oraclejdk ]; then
