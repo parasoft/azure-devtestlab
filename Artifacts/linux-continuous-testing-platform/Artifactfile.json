@@ -1,7 +1,7 @@
 {
   "$schema": "https://raw.githubusercontent.com/Azure/azure-devtestlab/master/schemas/2015-01-01/dtlArtifacts.json",
-  "title": "Parasoft CTP",
-  "description": "Continuous Testing Platform install for Linux",
+  "title": "Service Virtualization",
+  "description": "Parasoft Continuous Testing Platform (CTP) for Linux",
   "tags": [
     "Parasoft",
     "Linux"
