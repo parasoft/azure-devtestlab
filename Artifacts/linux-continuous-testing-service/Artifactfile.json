@@ -1,10 +1,12 @@
 {
   "$schema": "https://raw.githubusercontent.com/Azure/azure-devtestlab/master/schemas/2015-01-01/dtlArtifacts.json",
   "title": "Service Virt. Engine",
-  "description": "Parasoft Continuous Testing Service (CTS) for Linux",
+  "description": "Execution engine for Parasoft Service Virtualization for Linux",
   "tags": [
     "Parasoft",
-    "Linux"
+    "Linux",
+    "Continuous Testing Service (CTS)",
+    "Service Virtualization"
   ],
   "iconUri": "http://parasoft.westus.cloudapp.azure.com/parasoftArtifact.png",
   "targetOsType": "Linux",
