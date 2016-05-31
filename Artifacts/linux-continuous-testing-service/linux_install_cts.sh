@@ -168,3 +168,7 @@ elif [ -f /bin/systemctl ] ; then
 else
     su - tomcat -c $CATALINA_HOME/bin/startup.sh
 fi
+
+echo "waiting for tomcat startup"
+curl --silent --location http://localhost:9080/
+echo "tomcat started"
