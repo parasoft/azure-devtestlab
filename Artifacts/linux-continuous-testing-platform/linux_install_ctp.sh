@@ -135,3 +135,7 @@ elif [ -f /usr/bin/yum ] ; then
     service iptables save
     systemctl start iptables
 fi
+
+echo "waiting for tomcat startup"
+curl --silent --location http://localhost:8080/em
+echo "tomcat started"
