@@ -19,6 +19,7 @@ echo "unziping DataRepository"
 unzip DataRepositoryServer.zip -d /opt/
 
 REPO_DIR=/opt/DataRepositoryServer-linux-x86_64
+sed -i "s/^REPO_HOME=.*/$REPO_DIR/" $REPO_DIR/server.sh
 
 groupadd datarepo
 useradd -M -s /bin/nologin -g datarepo -d /opt/DataRepositoryServer-linux-x86_64 datarepo
