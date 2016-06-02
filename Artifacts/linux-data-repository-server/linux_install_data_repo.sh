@@ -23,7 +23,7 @@ sed -i 's/^REPO_HOME=.*/REPO_HOME=\/opt\/DataRepositoryServer-linux-x86_64/' /op
 sed -i 's/^CMD_USER=.*/CMD_USER=datarepo/' /opt/DataRepositoryServer-linux-x86_64/server.sh
 
 groupadd datarepo
-useradd -M -s /bin/nologin -g datarepo -d /opt/DataRepositoryServer-linux-x86_64 datarepo
+useradd -M -s /sbin/nologin -g datarepo -d /opt/DataRepositoryServer-linux-x86_64 datarepo
 chgrp -R datarepo $REPO_DIR/bin
 chgrp datarepo $REPO_DIR
 chmod g+rwx $REPO_DIR

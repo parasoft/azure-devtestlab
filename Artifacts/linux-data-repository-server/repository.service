@@ -6,7 +6,7 @@ After=syslog.target network.target
 [Service]
 Type=forking
 
-ExecStart=/opt/DataRepositoryServer-linux-x86_64/bin/server.sh start
+ExecStart=/opt/DataRepositoryServer-linux-x86_64/server.sh start
 ExecStop=/bin/kill -15 $MAINPID
 
 User=datarepo
