@@ -20,11 +20,9 @@ unzip DataRepositoryServer.zip -d /opt/
 
 REPO_DIR=/opt/DataRepositoryServer-linux-x86_64
 sed -i 's/^REPO_HOME=.*/REPO_HOME=\/opt\/DataRepositoryServer-linux-x86_64/' /opt/DataRepositoryServer-linux-x86_64/server.sh
-sed -i 's/^CMD_USER=.*/CMD_USER=datarepo/' /opt/DataRepositoryServer-linux-x86_64/server.sh
 
 groupadd datarepo
-useradd -M -s /sbin/nologin -g datarepo -d /opt/DataRepositoryServer-linux-x86_64 datarepo
-chgrp -R datarepo $REPO_DIR/bin
+useradd -M -g datarepo -d /opt/DataRepositoryServer-linux-x86_64 datarepo
 chgrp datarepo $REPO_DIR
 chmod g+rwx $REPO_DIR
 chown -R datarepo $REPO_DIR/bin/ $REPO_DIR/curl/
