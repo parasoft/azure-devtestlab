@@ -11,8 +11,29 @@
   "iconUri": "http://parasoft.westus.cloudapp.azure.com/parasoftArtifact.png",
   "targetOsType": "Linux",
   "parameters": {
+    "tdmurl": {
+      "type": "string",
+      "displayName": "Base URL for Parasoft Test Data Manager",
+      "description": "The data repository server will register itself with this Test Data Manager",
+      "allowEmpty": true,
+      "defaultValue": "http://ctp.cloudapp.azure.com:8080"
+    },
+    "tdmusername": {
+      "type": "string",
+      "displayName": "Service account username",
+      "description": "The data repository server will use this username when communicating with Test Data Manager",
+      "allowEmpty": true,
+      "defaultValue": "admin"
+    },
+    "tdmpassword": {
+      "type": "string",
+      "displayName": "Service account password",
+      "description": "The data repository server will use this password when communicating with Test Data Manager",
+      "allowEmpty": true,
+      "defaultValue": "admin"
+    }
   },
   "runCommand": {
-    "commandToExecute": "['sh linux_install_data_repo.sh']"
+    "commandToExecute": "[concat('sh linux_install_data_repo.sh', ' \"', parameters('tdmurl'), '\" \"', parameters('tdmusername'), '\" \"', parameters('tdmpassword'), '\"')]"
   }
 }

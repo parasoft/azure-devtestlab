@@ -1,4 +1,19 @@
 #!/bin/bash
+
+###
+# Arguments:
+#
+# $1    Virtualize server name
+# $2    CTP base URL
+# $3    CTP username
+# $4    CTP password
+#
+###
+
+TDM_BASE_URL=$1
+TDM_USERNAME=$2
+TDM_PASSWORD=$3
+
 echo "Installing Parasoft Data Repository"
 echo "==================================="
 curl --silent --location --remote-name http://parasoft.westus.cloudapp.azure.com/builds/DataRepositoryServer.zip
@@ -20,6 +35,9 @@ unzip DataRepositoryServer.zip -d /opt/
 
 REPO_DIR=/opt/DataRepositoryServer-linux-x86_64
 sed -i 's/^REPO_HOME=.*/REPO_HOME=\/opt\/DataRepositoryServer-linux-x86_64/' /opt/DataRepositoryServer-linux-x86_64/server.sh
+sed -i 's/^TDM=.*/TDM=$TDM_BASE_URL/' /opt/DataRepositoryServer-linux-x86_64/server.sh
+sed -i 's/^T_USER=.*/T_USER=$TDM_USERNAME/' /opt/DataRepositoryServer-linux-x86_64/server.sh
+sed -i 's/^T_PASS=.*/T_PASS=$TDM_PASSWORD/' /opt/DataRepositoryServer-linux-x86_64/server.sh
 
 groupadd datarepo
 useradd -M -g datarepo -d /opt/DataRepositoryServer-linux-x86_64 datarepo
