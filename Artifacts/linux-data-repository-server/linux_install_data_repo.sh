@@ -35,7 +35,7 @@ unzip DataRepositoryServer.zip -d /opt/
 
 REPO_DIR=/opt/DataRepositoryServer-linux-x86_64
 sed -i 's/^REPO_HOME=.*/REPO_HOME=\/opt\/DataRepositoryServer-linux-x86_64/' /opt/DataRepositoryServer-linux-x86_64/server.sh
-sed -i "s/^TDM=.*/TDM=$TDM_BASE_URL/" /opt/DataRepositoryServer-linux-x86_64/server.sh
+sed -i "s!^TDM=.*!TDM=$TDM_BASE_URL!" /opt/DataRepositoryServer-linux-x86_64/server.sh
 sed -i "s/^T_USER=.*/T_USER=$TDM_USERNAME/" /opt/DataRepositoryServer-linux-x86_64/server.sh
 sed -i "s/^T_PASS=.*/T_PASS=$TDM_PASSWORD/" /opt/DataRepositoryServer-linux-x86_64/server.sh
 
