@@ -40,10 +40,13 @@ export JAVA_HOME=/usr/oraclejdk/jdk1.8.0_92
 export PATH=$JAVA_HOME/bin:$PATH
 
 #CATALINA_HOME is the location of the bin files of Tomcat
-export CATALINA_HOME=/opt/tomcat
+export CATALINA_HOME=/usr/local/tomcat
+
+#CATALINA_BASE is the location of the tomcat instance configuration
+export CATALINA_BASE=/var/tomcat/ctp
 
 #TOMCAT_USER is the default user of tomcat
-export TOMCAT_USER=tomcat
+export TOMCAT_USER=ctp
  
 #TOMCAT_USAGE is the message if this script is called without any options
 TOMCAT_USAGE="Usage: $0 {\e[00;32mstart\e[00m|\e[00;31mstop\e[00m|\e[00;31mkill\e[00m|\e[00;32mstatus\e[00m|\e[00;31mrestart\e[00m}"
