@@ -127,7 +127,7 @@ installCTP() {
   cp license $CATALINA_BASE/webapps/em/
   cp database.properties $CATALINA_BASE/webapps/em/WEB-INF/classes/META-INF/spring/
   echo '<% response.sendRedirect("/em"); %>' >> /var/tomcat/ctp/webapps/ROOT/index.jsp
-  chown -R tomcat $CATALINA_BASE/webapps/em/
+  chown -R ctp $CATALINA_BASE/webapps/em/
 
   echo "Remove temporary installation files"
   rm -rf ctp_dist
