@@ -19,7 +19,7 @@ ExecStop=/bin/kill -15 $MAINPID
 User=ctp
 Group=parasoft
 
-WorkingDirectory=/usr/local/tomcat
+WorkingDirectory=/var/tomcat/ctp
 
 [Install]
 WantedBy=multi-user.target

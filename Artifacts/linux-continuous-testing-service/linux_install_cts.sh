@@ -150,6 +150,7 @@ installCTS() {
   sed -i "s/8443/9443/g" $VIRTUALIZE_HOME/WEB-INF/config.properties
   sed -i "s/8080/9080/g" $CATALINA_BASE/conf/server.xml
   sed -i "s/8443/9443/g" $CATALINA_BASE/conf/server.xml
+  sed -i "s/8005/8006/g" $CATALINA_BASE/conf/server.xml
   sed -i "s/8009/0/g" $CATALINA_BASE/conf/server.xml
 
   sed -i "s/^#env.manager.server.name=.*/env.manager.server.name=$VIRTUALIZE_SERVER_NAME/" $VIRTUALIZE_HOME/WEB-INF/config.properties
