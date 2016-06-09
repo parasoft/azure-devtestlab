@@ -88,19 +88,18 @@ installTomcat() {
   chmod g+rwx $CATALINA_BASE
   chown -R ctp $CATALINA_BASE/webapps/ $CATALINA_BASE/work/ $CATALINA_BASE/temp/ $CATALINA_BASE/logs/
 
-  if [ -f /usr/sbin/update-rc.d ] ; then
-    echo "Using Update-rc to register Tomcat as a service"
-
-    cp ctp.sh /etc/init.d/
-    chmod 755 /etc/init.d/ctp.sh
-    update-rc.d ctp.sh defaults
-
-  elif [ -f /bin/systemctl ] ; then
+  if [ -f /bin/systemctl ] ; then
     echo "Using Systemd to register Tomcat as a service"
 
     cp ctp.service /etc/systemd/system/ctp.service
     systemctl daemon-reload
     systemctl enable ctp
+  elif [ -f /usr/sbin/update-rc.d ] ; then
+    echo "Using Update-rc to register Tomcat as a service"
+
+    cp ctp.sh /etc/init.d/
+    chmod 755 /etc/init.d/ctp.sh
+    update-rc.d ctp.sh defaults
   fi
 
   if [ -f apache-tomcat-$TOMCAT_VERSION.tar.gz]; then
@@ -161,10 +160,10 @@ configureIPTables() {
 startTomcat() {
   echo "Startup Tomcat"
   echo "==============================================="
-  if [ -f /usr/sbin/update-rc.d ] ; then
-    /etc/init.d/ctp.sh start
-  elif [ -f /bin/systemctl ] ; then
+  if [ -f /bin/systemctl ] ; then
     systemctl start ctp
+  elif [ -f /usr/sbin/update-rc.d ] ; then
+    /etc/init.d/ctp.sh start
   else
     su - ctp -c $CATALINA_HOME/bin/startup.sh
   fi

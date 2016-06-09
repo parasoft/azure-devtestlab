@@ -31,6 +31,35 @@ export CATALINA_HOME=/usr/local/tomcat
 #CATALINA_BASE points to the CTS tomcat instance
 export CATALINA_BASE=/var/tomcat/cts
 
+# parse the URL in bash from http://stackoverflow.com/questions/6174220/parse-url-in-shell-script
+# extract the protocol
+proto="`echo $CTP_BASE_URL | grep '://' | sed -e's,^\(.*://\).*,\1,g'`"
+# remove the protocol
+url=`echo $CTP_BASE_URL | sed -e s,$proto,,g`
+
+# extract the user and password (if any)
+userpass="`echo $url | grep @ | cut -d@ -f1`"
+pass=`echo $userpass | grep : | cut -d: -f2`
+if [ -n "$pass" ]; then
+    user=`echo $userpass | grep : | cut -d: -f1`
+else
+    user=$userpass
+fi
+
+# extract the host -- updated
+hostport=`echo $url | sed -e s,$userpass@,,g | cut -d/ -f1`
+port=`echo $hostport | grep : | cut -d: -f2`
+if [ -n "$port" ]; then
+    host=`echo $hostport | grep : | cut -d: -f1`
+else
+    host=$hostport
+fi
+
+# extract the path (if any)
+path="`echo $url | grep / | cut -d/ -f2-`"
+
+CTP_HOST=$host
+
 init() {
   echo "Install zip and unzip"
   if [ -f /usr/bin/apt ] ; then
@@ -110,20 +139,20 @@ installTomcat() {
   chmod g+rwx $CATALINA_BASE
   chown -R cts $CATALINA_BASE/webapps/ $CATALINA_BASE/work/ $CATALINA_BASE/temp/ $CATALINA_BASE/logs/
 
-  if [ -f /usr/sbin/update-rc.d ] ; then
-    echo "Using Update-rc to register CTS as a service"
-
-    cp cts.sh /etc/init.d/
-    chmod 755 /etc/init.d/cts.sh
-    update-rc.d cts.sh defaults
-
-  elif [ -f /bin/systemctl ] ; then
+  if [ -f /bin/systemctl ] ; then
     echo "Using Systemd to register CTS as a service"
 
     cp cts.service /etc/systemd/system/cts.service
     systemctl daemon-reload
     systemctl enable cts
+  elif [ -f /usr/sbin/update-rc.d ] ; then
+    echo "Using Update-rc to register CTS as a service"
+
+    cp cts.sh /etc/init.d/
+    chmod 755 /etc/init.d/cts.sh
+    update-rc.d cts.sh defaults
   fi
+
 
   if [ -f apache-tomcat-$TOMCAT_VERSION.tar.gz]; then
     echo "remove tomcat 8 tar"
@@ -172,10 +201,10 @@ installCTS() {
 startTomcat() {
   echo "Startup Tomcat"
   echo "==============================================="
-  if [ -f /usr/sbin/update-rc.d ] ; then
-    /etc/init.d/cts.sh start
-  elif [ -f /bin/systemctl ] ; then
+  if [ -f /bin/systemctl ] ; then
     systemctl start cts
+  elif [ -f /usr/sbin/update-rc.d ] ; then
+    /etc/init.d/cts.sh start
   else
     su - cts -c $CATALINA_HOME/bin/startup.sh
   fi
