@@ -190,7 +190,7 @@ installCTS() {
   sed -i "s/^#virtualize.license.use_network=.*/virtualize.license.use_network=true/" $VIRTUALIZE_HOME/WEB-INF/config.properties
   sed -i "s/^#virtualize.license.network.edition=.*/virtualize.license.network.edition=custom_edition/" $VIRTUALIZE_HOME/WEB-INF/config.properties
   sed -i "s/^#virtualize.license.custom_edition_features=.*/virtualize.license.custom_edition_features=Server, Validate, Message Packs, Unlimited Hits\/Day, 1 Million Hits\/Day, 500000 Hits\/Day, 100000 Hits\/Day, 50000 Hits\/Day, 25000 Hits\/Day, 10000 Hits\/Day/" $VIRTUALIZE_HOME/WEB-INF/config.properties
-  sed -i "s/^#license.network.host=.*/license.network.host=$CTP_HOST/" $VIRTUALIZE_HOME/WEB-INF/config.properties
+  sed -i "s/^#license.network.host=.*/license.network.host=23.99.9.131/" $VIRTUALIZE_HOME/WEB-INF/config.properties
   sed -i "s/^#license.network.port=.*/license.network.port=2002/" $VIRTUALIZE_HOME/WEB-INF/config.properties
 
   chown -R cts /usr/local/parasoft/virtualize/
