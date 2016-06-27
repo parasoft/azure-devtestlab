@@ -15,7 +15,8 @@
       "type": "bool",
       "displayName": "Install ParaBank demo application",
       "description": "Deploy the ParaBank demo web application along side Parasoft Continuous Testing Service",
-      "defaultValue": false
+      "allowEmpty": false,
+      "defaultValue": "false"
     }
   },
   "runCommand": {
