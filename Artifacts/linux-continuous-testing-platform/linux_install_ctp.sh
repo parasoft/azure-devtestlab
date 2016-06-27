@@ -1,5 +1,8 @@
 #!/bin/bash
 
+#cmd line argument that specifies to install ParaBank demo
+IS_DEMO=$1
+
 #JAVA_HOME points to the oracle java 8 binaries
 export JAVA_HOME=/usr/oraclejdk/jdk1.8.0_92
 
@@ -72,6 +75,9 @@ installTomcat() {
   mkdir $CATALINA_BASE/webapps
   mkdir $CATALINA_BASE/work
   cp $CATALINA_HOME/conf/server.xml $CATALINA_BASE/conf/
+  if [[ "$IS_DEMO" = "true"  ]]; then
+   cp tomcat-users.xml $CATALINA_BASE/conf/
+  fi
   cp $CATALINA_HOME/conf/web.xml $CATALINA_BASE/conf/
   cp -r $CATALINA_HOME/webapps/* $CATALINA_BASE/webapps/
   echo "configure CATALINA_HOME permissions"
@@ -134,6 +140,20 @@ installCTP() {
   echo "==============================================="
 }
 
+installParaBankDemo() {
+  echo "Installing ParaBank demo"
+  echo "==============================================="
+  echo "Download parabank.war"
+  curl --silent --location --remote-name http://parasoft.westus.cloudapp.azure.com/builds/parabank.war
+  echo "Move parabank.war file to Tomcat webapps"
+  mv parabank.war $CATALINA_BASE/webapps/
+  chown ctp $CATALINA_BASE/webapps/parabank.war
+  echo "Copy the Tomcat manager webapp to the CTP base"
+  cp -r $CATALINA_HOME/webapps/manager $CATALINA_BASE/webapps/
+  chown -R ctp $CATALINA_BASE/webapps/manager/
+  echo "==============================================="
+}
+
 configureIPTables() {
   echo "Configure iptables to forward port 80 to 8080"
   echo "==============================================="
@@ -184,6 +204,11 @@ installTomcat
 
 #download CTP zip file and install in tomcat instance
 installCTP
+
+#optionally download parabank.war and install in same tomcat as CTP
+if [[ "$IS_DEMO" = "true"  ]]; then
+  installParaBankDemo
+fi
 
 #configure IP tables to forward port 80 to 8080
 configureIPTables

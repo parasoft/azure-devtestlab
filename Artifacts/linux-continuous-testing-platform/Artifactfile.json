@@ -11,8 +11,14 @@
   "iconUri": "http://parasoft.westus.cloudapp.azure.com/parasoftArtifact.png",
   "targetOsType": "Linux",
   "parameters": {
+    "demo": {
+      "type": "bool",
+      "displayName": "Install ParaBank demo application",
+      "description": "Deploy the ParaBank demo web application along side Parasoft Continuous Testing Service",
+      "defaultValue": false
+    }
   },
   "runCommand": {
-    "commandToExecute": "['sh linux_install_ctp.sh']"
+    "commandToExecute": "[concat('sh linux_install_ctp.sh', ' \"', parameters('demo'), '\"')]"
   }
 }
