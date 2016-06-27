@@ -23,7 +23,7 @@
       "displayName": "Base URL for Parasoft Continuous Testing Platform",
       "description": "The Virtualize server will register itself with this Environment Manager",
       "allowEmpty": true,
-      "defaultValue": "http://ctp.cloudapp.azure.com:8080"
+      "defaultValue": "http://localhost:8080"
     },
     "ctpusername": {
       "type": "string",
