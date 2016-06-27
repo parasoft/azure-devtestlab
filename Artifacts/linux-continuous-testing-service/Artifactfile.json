@@ -33,7 +33,7 @@
       "defaultValue": "admin"
     },
     "ctppassword": {
-      "type": "string",
+      "type": "securestring",
       "displayName": "Service account password",
       "description": "The Virtualize server use this account password when communicating with Environment Manager",
       "allowEmpty": true,
