@@ -1,10 +1,11 @@
 {
   "$schema": "https://raw.githubusercontent.com/Azure/azure-devtestlab/master/schemas/2015-01-01/dtlArtifacts.json",
-  "title": "Service Virtualization",
-  "description": "Parasoft Service Virtualization platform for Linux",
+  "title": "Environment Manager",
+  "description": "Parasoft Envrionment Manager powered by the Continuous Testing Platform for Linux",
   "tags": [
     "Parasoft",
     "Linux",
+    "Environment Manager",
     "Continuous Testing Platform (CTP)",
     "Service Virtualization"
   ],
