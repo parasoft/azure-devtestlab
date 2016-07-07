@@ -148,6 +148,10 @@ installParaBankDemo() {
   echo "Move parabank.war file to Tomcat webapps"
   mv parabank.war $CATALINA_BASE/webapps/
   chown ctp $CATALINA_BASE/webapps/parabank.war
+  echo "==============================================="
+}
+
+configureTomcatManager() {
   echo "Copy the Tomcat manager webapp to the CTP base"
   cp -r $CATALINA_HOME/webapps/manager $CATALINA_BASE/webapps/
   chown -R ctp $CATALINA_BASE/webapps/manager/
@@ -209,6 +213,9 @@ installCTP
 if [[ "$IS_DEMO" = "true"  ]]; then
   installParaBankDemo
 fi
+
+#configure tomcat for remote scripted deployment of war files
+configureTomcatManager
 
 #configure IP tables to forward port 80 to 8080
 configureIPTables
