@@ -154,7 +154,7 @@ installTomcat() {
   fi
 
 
-  if [ -f apache-tomcat-$TOMCAT_VERSION.tar.gz]; then
+  if [ -f apache-tomcat-$TOMCAT_VERSION.tar.gz ]; then
     echo "remove tomcat 8 tar"
     rm apache-tomcat-$TOMCAT_VERSION.tar.gz
   fi
