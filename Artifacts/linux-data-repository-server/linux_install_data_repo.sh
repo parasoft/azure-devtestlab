@@ -61,13 +61,13 @@ elif [ -f /bin/systemctl ] ; then
 
 fi
 
-echo "start Data Repository server"
-if [ -f /usr/sbin/update-rc.d ] ; then
-    /etc/init.d/server.sh start
-elif [ -f /bin/systemctl ] ; then
-    systemctl start repository
-else
-    su - datarepo -c $REPO_DIR/server.sh start
-fi
+# echo "start Data Repository server"
+# if [ -f /usr/sbin/update-rc.d ] ; then
+#     /etc/init.d/server.sh start
+# elif [ -f /bin/systemctl ] ; then
+#     systemctl start repository
+# else
+#     su - datarepo -c $REPO_DIR/server.sh start
+# fi
 echo "cleanup"
 rm DataRepositoryServer.zip

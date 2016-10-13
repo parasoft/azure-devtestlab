@@ -227,4 +227,4 @@ installTomcat
 installCTS
 
 #start tomcat service
-startTomcat
+#startTomcat

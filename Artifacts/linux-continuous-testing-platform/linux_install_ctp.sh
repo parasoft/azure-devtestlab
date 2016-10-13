@@ -221,4 +221,4 @@ configureTomcatManager
 configureIPTables
 
 #start tomcat service
-startTomcat
+#startTomcat
