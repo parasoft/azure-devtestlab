@@ -16,7 +16,7 @@
       "displayName": "Base URL for Parasoft Test Data Manager",
       "description": "The data repository server will register itself with this Test Data Manager",
       "allowEmpty": true,
-      "defaultValue": "http://ctp.cloudapp.azure.com:8080"
+      "defaultValue": "http://localhost:8080"
     },
     "tdmusername": {
       "type": "string",
