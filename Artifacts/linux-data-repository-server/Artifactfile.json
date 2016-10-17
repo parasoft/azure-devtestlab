@@ -26,7 +26,7 @@
       "defaultValue": "admin"
     },
     "tdmpassword": {
-      "type": "string",
+      "type": "securestring",
       "displayName": "Service account password",
       "description": "The data repository server will use this password when communicating with Test Data Manager",
       "allowEmpty": true,
