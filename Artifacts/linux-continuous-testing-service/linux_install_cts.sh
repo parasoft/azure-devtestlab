@@ -126,6 +126,7 @@ installTomcat() {
   cp $CATALINA_HOME/conf/web.xml $CATALINA_BASE/conf/
   cp -r $CATALINA_HOME/webapps/* $CATALINA_BASE/webapps/
   echo "configure CTS CATALINA_BASE permissions"
+  groupadd parasoft
   useradd -M -s /bin/nologin -g parasoft -d $CATALINA_BASE cts
   mkdir -p $CATALINA_BASE/conf/Catalina/localhost
   chgrp -R parasoft $CATALINA_BASE

@@ -39,11 +39,11 @@ sed -i "s!^TDM=.*!TDM=$TDM_BASE_URL!" /opt/DataRepositoryServer-linux-x86_64/ser
 sed -i "s/^T_USER=.*/T_USER=$TDM_USERNAME/" /opt/DataRepositoryServer-linux-x86_64/server.sh
 sed -i "s/^T_PASS=.*/T_PASS=$TDM_PASSWORD/" /opt/DataRepositoryServer-linux-x86_64/server.sh
 
-groupadd datarepo
-useradd -M -g datarepo -d /opt/DataRepositoryServer-linux-x86_64 datarepo
-chgrp datarepo $REPO_DIR
+groupadd parasoft
+useradd -M -g parasoft -d /opt/DataRepositoryServer-linux-x86_64 datarepo
+chgrp parasoft $REPO_DIR
 chmod g+rwx $REPO_DIR
-chown -R datarepo $REPO_DIR/bin/ $REPO_DIR/curl/
+chown -R datarepo:parasoft $REPO_DIR
 
 if [ -f /usr/sbin/update-rc.d ] ; then
     echo "Using Update-rc to register data repository as a service"
