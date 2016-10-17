@@ -125,19 +125,14 @@ installTomcat() {
   cp $CATALINA_HOME/conf/server.xml $CATALINA_BASE/conf/
   cp $CATALINA_HOME/conf/web.xml $CATALINA_BASE/conf/
   cp -r $CATALINA_HOME/webapps/* $CATALINA_BASE/webapps/
-  echo "configure CATALINA_HOME permissions"
-  groupadd parasoft
-  chgrp -R parasoft $CATALINA_HOME/bin
-  chmod g+rwx $CATALINA_HOME/bin
   echo "configure CTS CATALINA_BASE permissions"
-  useradd -M -s /bin/nologin -g parasoft -d /var/tomcat/cts cts
+  useradd -M -s /bin/nologin -g parasoft -d $CATALINA_BASE cts
   mkdir -p $CATALINA_BASE/conf/Catalina/localhost
-  chgrp -R parasoft $CATALINA_BASE/conf
+  chgrp -R parasoft $CATALINA_BASE
+  chmod g+rwx $CATALINA_BASE
   chmod g+rwx $CATALINA_BASE/conf
   chmod g+r $CATALINA_BASE/conf/*
-  chgrp parasoft $CATALINA_BASE
-  chmod g+rwx $CATALINA_BASE
-  chown -R cts $CATALINA_BASE/webapps/ $CATALINA_BASE/work/ $CATALINA_BASE/temp/ $CATALINA_BASE/logs/
+  chown -R cts $CATALINA_BASE
 
   if [ -f /bin/systemctl ] ; then
     echo "Using Systemd to register CTS as a service"
