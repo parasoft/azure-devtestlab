@@ -4,7 +4,7 @@
 IS_DEMO=$1
 
 #JAVA_HOME points to the oracle java 8 binaries
-export JAVA_HOME=/usr/oraclejdk/jdk1.8.0_102
+export JAVA_HOME=/usr/oraclejdk/jdk1.8.0_112
 
 #CATALINA_HOME points to the tomcat library files
 export CATALINA_HOME=/usr/local/tomcat
@@ -35,21 +35,21 @@ installJava() {
     echo "Oracle JDK already installed"
     return 0
   fi
-  wget --quiet --no-check-certificate --no-cookies --header "Cookie: oraclelicense=accept-securebackup-cookie" -O jdk-8u102-linux-x64.tar.gz http://download.oracle.com/otn-pub/java/jdk/8u102-b14/jdk-8u102-linux-x64.tar.gz
+  wget --quiet --no-check-certificate --no-cookies --header "Cookie: oraclelicense=accept-securebackup-cookie" -O jdk-8u112-linux-x64.tar.gz http://download.oracle.com/otn-pub/java/jdk/8u112-b15/jdk-8u112-linux-x64.tar.gz
   mkdir /usr/oraclejdk
-  tar -xvf jdk-8u102-linux-x64.tar.gz -C /usr/oraclejdk
-  echo "export JAVA_HOME=/usr/oraclejdk/jdk1.8.0_102" > /etc/profile.d/java.sh
+  tar -xvf jdk-8u112-linux-x64.tar.gz -C /usr/oraclejdk
+  echo "export JAVA_HOME=/usr/oraclejdk/jdk1.8.0_112" > /etc/profile.d/java.sh
   if type -p java; then
    version=$(java -version 2>&1 | awk -F '"' '/version/ {print $2}')
    echo $version
   fi
-  if [[ "$version" = "1.8.0_102"  ]]; then
+  if [[ "$version" = "1.8.0_112"  ]]; then
    echo "Oracle JDK installation complete"
   else 
    echo "Oracle JDK installation failed" 
   fi
   echo "remove jdk tar file"
-  rm jdk-8u102-linux-x64.tar.gz
+  rm jdk-8u112-linux-x64.tar.gz
   echo "==============================================="
 }
 
