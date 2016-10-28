@@ -1,0 +1,16 @@
+# Systemd unit file for CTS delay
+[Unit]
+Description=Delay CTS startup for 2 minutes after starting CTP
+
+[Service]
+Type=oneshot
+
+ExecStart=/usr/bin/sleep 120
+
+User=cts
+Group=parasoft
+
+WorkingDirectory=/var/tomcat/cts
+
+[Install]
+WantedBy=cts.service

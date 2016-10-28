@@ -139,8 +139,10 @@ installTomcat() {
     echo "Using Systemd to register CTS as a service"
 
     cp cts.service /etc/systemd/system/cts.service
+    cp delay.service /etc/systemd/system/delay.service
     systemctl daemon-reload
     systemctl enable cts
+    systemctl enable delay
   elif [ -f /usr/sbin/update-rc.d ] ; then
     echo "Using Update-rc to register CTS as a service"
 

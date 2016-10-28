@@ -1,7 +1,8 @@
 # Systemd unit file for tomcat
 [Unit]
 Description=Apache Tomcat Web Application Container
-After=syslog.target network.target
+Wants=delay.service
+After=syslog.target network.target delay.service
 
 [Service]
 Type=forking
