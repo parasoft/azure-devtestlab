@@ -55,9 +55,9 @@ if [ -f /usr/sbin/update-rc.d ] ; then
 elif [ -f /bin/systemctl ] ; then
     echo "Using Systemd to register data repository as a service"
 
-    cp repository.service /etc/systemd/system/repository.service
+    cp datarepo.service /etc/systemd/system/datarepo.service
     systemctl daemon-reload
-    systemctl enable repository
+    systemctl enable datarepo
 
 fi
 
@@ -65,7 +65,7 @@ fi
 # if [ -f /usr/sbin/update-rc.d ] ; then
 #     /etc/init.d/server.sh start
 # elif [ -f /bin/systemctl ] ; then
-#     systemctl start repository
+#     systemctl start datarepo
 # else
 #     su - datarepo -c $REPO_DIR/server.sh start
 # fi

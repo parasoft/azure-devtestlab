@@ -1,7 +1,8 @@
 # Systemd unit file for Data Repository
 [Unit]
 Description=Parasoft Data Repository Server
-After=syslog.target network.target
+Wants=delay.service
+After=syslog.target network.target delay.service
 
 [Service]
 Type=forking
@@ -10,7 +11,7 @@ ExecStart=/opt/DataRepositoryServer-linux-x86_64/server.sh start
 ExecStop=/bin/kill -15 $MAINPID
 
 User=datarepo
-Group=datarepo
+Group=parasoft
 
 WorkingDirectory=/opt/DataRepositoryServer-linux-x86_64
 
