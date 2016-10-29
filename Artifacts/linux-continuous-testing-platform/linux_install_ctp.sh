@@ -130,6 +130,10 @@ installCTP() {
   echo '<% response.sendRedirect("/em"); %>' >> /var/tomcat/ctp/webapps/ROOT/index.jsp
   chown -R ctp $CATALINA_BASE/webapps/em/
 
+  VIRTUALIZE_HOME=/usr/local/parasoft/virtualize
+  mkdir -p $VIRTUALIZE_HOME/workspace/VirtualAssets/logs
+  ln -s $CATALINA_BASE/logs $VIRTUALIZE_HOME/workspace/VirtualAssets/logs/ctp
+
   echo "Remove temporary installation files"
   rm -rf ctp_dist
   rm parasoft_continuous_testing_platform_3.0.0.zip

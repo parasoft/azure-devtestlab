@@ -191,7 +191,9 @@ installCTS() {
   sed -i "s/^#license.network.host=.*/license.network.host=23.99.9.131/" $VIRTUALIZE_HOME/WEB-INF/config.properties
   sed -i "s/^#license.network.port=.*/license.network.port=2002/" $VIRTUALIZE_HOME/WEB-INF/config.properties
 
-  chown -R cts /usr/local/parasoft/virtualize/
+  mkdir -p $VIRTUALIZE_HOME/workspace/VirtualAssets/logs
+  ln -s $CATALINA_BASE/logs $VIRTUALIZE_HOME/workspace/VirtualAssets/logs/cts
+  chown -R cts:parasoft $VIRTUALIZE_HOME
   echo "==============================================="
 }
 
