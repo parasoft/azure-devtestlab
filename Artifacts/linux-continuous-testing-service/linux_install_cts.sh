@@ -122,6 +122,7 @@ installTomcat() {
   mkdir $CATALINA_BASE/temp
   mkdir $CATALINA_BASE/webapps
   mkdir $CATALINA_BASE/work
+  cp $CATALINA_HOME/conf/logging.properties $CATALINA_BASE/conf/
   cp $CATALINA_HOME/conf/server.xml $CATALINA_BASE/conf/
   cp $CATALINA_HOME/conf/web.xml $CATALINA_BASE/conf/
   cp -r $CATALINA_HOME/webapps/* $CATALINA_BASE/webapps/
@@ -173,6 +174,7 @@ installCTS() {
 
   echo "Configure Tomcat to deploy CTS webapp"
   echo "<Context docBase=\"$VIRTUALIZE_HOME\" path=\"\" reloadable=\"true\" />" > $CATALINA_BASE/conf/Catalina/localhost/ROOT.xml
+  sed -i "s/\${catalina.base}\/logs/$VIRTUALIZE_HOME\/workspace\/VirtualAssets\/logs\/cts/g" $CATALINA_BASE/conf/logging.properties
   sed -i "s/8080/9080/g" $VIRTUALIZE_HOME/WEB-INF/config.properties
   sed -i "s/8443/9443/g" $VIRTUALIZE_HOME/WEB-INF/config.properties
   sed -i "s/8080/9080/g" $CATALINA_BASE/conf/server.xml
@@ -191,8 +193,7 @@ installCTS() {
   sed -i "s/^#license.network.host=.*/license.network.host=23.99.9.131/" $VIRTUALIZE_HOME/WEB-INF/config.properties
   sed -i "s/^#license.network.port=.*/license.network.port=2002/" $VIRTUALIZE_HOME/WEB-INF/config.properties
 
-  mkdir -p $VIRTUALIZE_HOME/workspace/VirtualAssets/logs
-  ln -s $CATALINA_BASE/logs $VIRTUALIZE_HOME/workspace/VirtualAssets/logs/cts
+  mkdir -p $VIRTUALIZE_HOME/workspace/VirtualAssets/logs/cts
   chown -R cts:parasoft $VIRTUALIZE_HOME
   echo "==============================================="
 }

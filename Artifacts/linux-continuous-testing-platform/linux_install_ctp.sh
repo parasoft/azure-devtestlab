@@ -74,6 +74,7 @@ installTomcat() {
   mkdir $CATALINA_BASE/temp
   mkdir $CATALINA_BASE/webapps
   mkdir $CATALINA_BASE/work
+  cp $CATALINA_HOME/conf/logging.properties $CATALINA_BASE/conf/
   cp $CATALINA_HOME/conf/server.xml $CATALINA_BASE/conf/
   if [[ "$IS_DEMO" = "true"  ]]; then
    cp tomcat-users.xml $CATALINA_BASE/conf/
@@ -128,11 +129,11 @@ installCTP() {
   cp license $CATALINA_BASE/webapps/em/
   cp database.properties $CATALINA_BASE/webapps/em/WEB-INF/classes/META-INF/spring/
   echo '<% response.sendRedirect("/em"); %>' >> /var/tomcat/ctp/webapps/ROOT/index.jsp
+  sed -i "s/\${catalina.base}\/logs/$VIRTUALIZE_HOME\/workspace\/VirtualAssets\/logs\/cts/g" $CATALINA_BASE/conf/logging.properties
   chown -R ctp $CATALINA_BASE/webapps/em/
 
   VIRTUALIZE_HOME=/usr/local/parasoft/virtualize
-  mkdir -p $VIRTUALIZE_HOME/workspace/VirtualAssets/logs
-  ln -s $CATALINA_BASE/logs $VIRTUALIZE_HOME/workspace/VirtualAssets/logs/ctp
+  mkdir -p $VIRTUALIZE_HOME/workspace/VirtualAssets/logs/ctp
 
   echo "Remove temporary installation files"
   rm -rf ctp_dist
