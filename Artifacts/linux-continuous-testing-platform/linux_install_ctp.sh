@@ -120,6 +120,7 @@ installCTP() {
   echo "Unzip CTP distribution"
   mkdir ctp_dist
   unzip parasoft_continuous_testing_platform_3.0.0.zip -d ctp_dist/
+  VIRTUALIZE_HOME=/usr/local/parasoft/virtualize
 
   echo "Copy CTP war files to Tomcat webapps"
   cp ctp_dist/pstsec.war $CATALINA_BASE/webapps/
@@ -129,11 +130,10 @@ installCTP() {
   cp license $CATALINA_BASE/webapps/em/
   cp database.properties $CATALINA_BASE/webapps/em/WEB-INF/classes/META-INF/spring/
   echo '<% response.sendRedirect("/em"); %>' >> /var/tomcat/ctp/webapps/ROOT/index.jsp
-  sed -i "s/\${catalina.base}\/logs/$VIRTUALIZE_HOME\/workspace\/VirtualAssets\/logs\/cts/g" $CATALINA_BASE/conf/logging.properties
-  chown -R ctp $CATALINA_BASE/webapps/em/
-
-  VIRTUALIZE_HOME=/usr/local/parasoft/virtualize
+  sed -i "s/\${catalina.base}\/logs/\/usr\/local\/parasoft\/virtualize\/workspace\/VirtualAssets\/logs\/cts/g" $CATALINA_BASE/conf/logging.properties
+  chown -R ctp:parasoft $CATALINA_BASE/webapps/em/
   mkdir -p $VIRTUALIZE_HOME/workspace/VirtualAssets/logs/ctp
+  chown ctp:parasoft $VIRTUALIZE_HOME/workspace/VirtualAssets/logs/ctp
 
   echo "Remove temporary installation files"
   rm -rf ctp_dist

@@ -174,7 +174,7 @@ installCTS() {
 
   echo "Configure Tomcat to deploy CTS webapp"
   echo "<Context docBase=\"$VIRTUALIZE_HOME\" path=\"\" reloadable=\"true\" />" > $CATALINA_BASE/conf/Catalina/localhost/ROOT.xml
-  sed -i "s/\${catalina.base}\/logs/$VIRTUALIZE_HOME\/workspace\/VirtualAssets\/logs\/cts/g" $CATALINA_BASE/conf/logging.properties
+  sed -i "s/\${catalina.base}\/logs/\/usr\/local\/parasoft\/virtualize\/workspace\/VirtualAssets\/logs\/cts/g" $CATALINA_BASE/conf/logging.properties
   sed -i "s/8080/9080/g" $VIRTUALIZE_HOME/WEB-INF/config.properties
   sed -i "s/8443/9443/g" $VIRTUALIZE_HOME/WEB-INF/config.properties
   sed -i "s/8080/9080/g" $CATALINA_BASE/conf/server.xml
