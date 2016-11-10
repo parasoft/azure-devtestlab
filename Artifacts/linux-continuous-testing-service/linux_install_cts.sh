@@ -164,13 +164,13 @@ installCTS() {
   echo "Installing CTS"
   echo "==============================================="
   echo "Download CTS distribution"
-  curl --silent --location --remote-name http://parasoft.westus.cloudapp.azure.com/builds/parasoft_continuous_testing_service_9.10.war
+  curl --silent --location --remote-name http://parasoft.westus.cloudapp.azure.com/builds/parasoft_soavirt_server_9.10.war
 
   echo "Extract CTS webapp"
   VIRTUALIZE_HOME=/usr/local/parasoft/virtualize
   mkdir -p $VIRTUALIZE_HOME
-  unzip parasoft_continuous_testing_service_9.10.war -d $VIRTUALIZE_HOME
-  rm parasoft_continuous_testing_service_9.10.war
+  unzip parasoft_soavirt_server_9.10.war -d $VIRTUALIZE_HOME
+  rm parasoft_soavirt_server_9.10.war
 
   echo "Configure Tomcat to deploy CTS webapp"
   echo "<Context docBase=\"$VIRTUALIZE_HOME\" path=\"\" reloadable=\"true\" />" > $CATALINA_BASE/conf/Catalina/localhost/ROOT.xml

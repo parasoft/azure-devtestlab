@@ -116,10 +116,10 @@ installCTP() {
   echo "Installing CTP"
   echo "==============================================="
   echo "Download CTP distribution"
-  curl --silent --location --remote-name http://parasoft.westus.cloudapp.azure.com/builds/parasoft_continuous_testing_platform_3.0.0.zip
+  curl --silent --location --remote-name http://parasoft.westus.cloudapp.azure.com/builds/parasoft_continuous_testing_platform_3.0.zip
   echo "Unzip CTP distribution"
   mkdir ctp_dist
-  unzip parasoft_continuous_testing_platform_3.0.0.zip -d ctp_dist/
+  unzip parasoft_continuous_testing_platform_3.0.zip -d ctp_dist/
   VIRTUALIZE_HOME=/usr/local/parasoft/virtualize
 
   echo "Copy CTP war files to Tomcat webapps"
@@ -138,7 +138,7 @@ installCTP() {
 
   echo "Remove temporary installation files"
   rm -rf ctp_dist
-  rm parasoft_continuous_testing_platform_3.0.0.zip
+  rm parasoft_continuous_testing_platform_3.0.zip
   echo "==============================================="
 }
 
