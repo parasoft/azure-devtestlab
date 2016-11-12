@@ -161,20 +161,20 @@ installTomcat() {
 }
 
 installCTS() {
-  echo "Installing CTS"
+  echo "Installing SOAVirt war file"
   echo "==============================================="
-  echo "Download CTS distribution"
+  echo "Download SOAVirt distribution"
   curl --silent --location --remote-name http://parasoft.westus.cloudapp.azure.com/builds/parasoft_soavirt_server_9.10.war
 
-  echo "Extract CTS webapp"
+  echo "Extract SOAVirt webapp"
   VIRTUALIZE_HOME=/usr/local/parasoft/virtualize
   mkdir -p $VIRTUALIZE_HOME
   unzip parasoft_soavirt_server_9.10.war -d $VIRTUALIZE_HOME
   rm parasoft_soavirt_server_9.10.war
 
-  echo "Configure Tomcat to deploy CTS webapp"
+  echo "Configure Tomcat to deploy SOAVirt webapp"
   echo "<Context docBase=\"$VIRTUALIZE_HOME\" path=\"\" reloadable=\"true\" />" > $CATALINA_BASE/conf/Catalina/localhost/ROOT.xml
-  sed -i "s/\${catalina.base}\/logs/\/usr\/local\/parasoft\/virtualize\/workspace\/VirtualAssets\/logs\/cts/g" $CATALINA_BASE/conf/logging.properties
+  sed -i "s/\${catalina.base}\/logs/\/usr\/local\/parasoft\/virtualize\/workspace\/VirtualAssets\/logs\/virtualize/g" $CATALINA_BASE/conf/logging.properties
   sed -i "s/8080/9080/g" $VIRTUALIZE_HOME/WEB-INF/config.properties
   sed -i "s/8443/9443/g" $VIRTUALIZE_HOME/WEB-INF/config.properties
   sed -i "s/8080/9080/g" $CATALINA_BASE/conf/server.xml
@@ -193,7 +193,7 @@ installCTS() {
   sed -i "s/^#license.network.host=.*/license.network.host=23.99.9.131/" $VIRTUALIZE_HOME/WEB-INF/config.properties
   sed -i "s/^#license.network.port=.*/license.network.port=2002/" $VIRTUALIZE_HOME/WEB-INF/config.properties
 
-  mkdir -p $VIRTUALIZE_HOME/workspace/VirtualAssets/logs/cts
+  mkdir -p $VIRTUALIZE_HOME/workspace/VirtualAssets/logs/virtualize
   chown -R cts:parasoft $VIRTUALIZE_HOME
   echo "==============================================="
 }
