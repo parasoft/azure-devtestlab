@@ -1,8 +1,14 @@
 ctp.license.use_network=true
-ctp.license_custom_edition_feature\ -\ CTP\ API\ Testing=false
+ctp.license_custom_edition_feature\ -\ CTP\ 100\ User\ Limit=true
+ctp.license_custom_edition_feature\ -\ CTP\ 25\ User\ Limit=true
+ctp.license_custom_edition_feature\ -\ CTP\ 250\ User\ Limit=true
+ctp.license_custom_edition_feature\ -\ CTP\ 5\ User\ Limit=true
+ctp.license_custom_edition_feature\ -\ CTP\ 50\ User\ Limit=true
+ctp.license_custom_edition_feature\ -\ CTP\ API\ Testing=true
 ctp.license_custom_edition_feature\ -\ CTP\ Environment\ Management=true
 ctp.license_custom_edition_feature\ -\ CTP\ Service\ Virtualization=true
 ctp.license_custom_edition_feature\ -\ CTP\ Test\ Data\ Management=true
+ctp.license_custom_edition_feature\ -\ CTP\ Unlimited\ Users=true
 ctp.license_enabled=true
 em.license.use_network=true
 em.license_enabled=true
