@@ -5,7 +5,8 @@ Description=Delay CTS startup for 30 seconds after starting CTP
 [Service]
 Type=oneshot
 
-ExecStart=/usr/bin/sleep 30
+ExecStartPre=/usr/bin/sleep 30
+ExecStart=-/usr/bin/curl -f --silent -o - "http://localhost:8080/em/healthcheck"
 
 User=cts
 Group=parasoft
