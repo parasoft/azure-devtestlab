@@ -4,7 +4,7 @@
 IS_DEMO=$1
 
 #JAVA_HOME points to the oracle java 8 binaries
-export JAVA_HOME=/usr/oraclejdk/jdk1.8.0_112
+export JAVA_HOME=/usr/oraclejdk/jdk1.8.0_121
 
 #CATALINA_HOME points to the tomcat library files
 export CATALINA_HOME=/usr/local/tomcat
@@ -35,21 +35,20 @@ installJava() {
     echo "Oracle JDK already installed"
     return 0
   fi
-  wget --quiet --no-check-certificate --no-cookies --header "Cookie: oraclelicense=accept-securebackup-cookie" -O jdk-8u112-linux-x64.tar.gz http://download.oracle.com/otn-pub/java/jdk/8u112-b15/jdk-8u112-linux-x64.tar.gz
+  wget --quiet --no-check-certificate --no-cookies --header "Cookie: oraclelicense=accept-securebackup-cookie" -O jdk-8u121-linux-x64.tar.gz http://download.oracle.com/otn-pub/java/jdk/8u121-b13/e9e7ea248e2c4826b92b3f075a80e441/jdk-8u121-linux-x64.tar.gz
   mkdir /usr/oraclejdk
-  tar -xvf jdk-8u112-linux-x64.tar.gz -C /usr/oraclejdk
-  echo "export JAVA_HOME=/usr/oraclejdk/jdk1.8.0_112" > /etc/profile.d/java.sh
-  if type -p java; then
-   version=$(java -version 2>&1 | awk -F '"' '/version/ {print $2}')
-   echo $version
-  fi
-  if [[ "$version" = "1.8.0_112"  ]]; then
+  tar -xvf jdk-8u121-linux-x64.tar.gz -C /usr/oraclejdk
+  echo "export JAVA_HOME=/usr/oraclejdk/jdk1.8.0_121" > /etc/profile.d/java.sh
+  source /etc/profile.d/java.sh
+  version=$($JAVA_HOME/bin/java -version 2>&1 | awk -F '"' '/version/ {print $2}')
+  echo $version
+  if [[ "$version" = "1.8.0_121"  ]]; then
    echo "Oracle JDK installation complete"
   else 
    echo "Oracle JDK installation failed" 
   fi
   echo "remove jdk tar file"
-  rm jdk-8u112-linux-x64.tar.gz
+  rm jdk-8u121-linux-x64.tar.gz
   echo "==============================================="
 }
 
@@ -67,8 +66,7 @@ installTomcat() {
     mv apache-tomcat-$TOMCAT_VERSION /usr/local/tomcat
   fi
   echo "creating CTP tomcat instance"
-  mkdir -p /var/tomcat/ctp
-  echo "export CATALINA_BASE=/var/tomcat/ctp" > /etc/profile.d/tomcat.sh
+  mkdir -p $CATALINA_BASE
   mkdir $CATALINA_BASE/conf
   mkdir $CATALINA_BASE/logs
   mkdir $CATALINA_BASE/temp
@@ -83,7 +81,13 @@ installTomcat() {
   cp -r $CATALINA_HOME/webapps/* $CATALINA_BASE/webapps/
   echo "configure CTP CATALINA_BASE permissions"
   groupadd parasoft
-  useradd -M -s /bin/nologin -g parasoft -d $CATALINA_BASE ctp
+  if [ -f /bin/nologin ] ; then
+    useradd -M -s /bin/nologin -g parasoft -d $CATALINA_BASE ctp
+  elif [ -f /sbin/nologin ] ; then
+    useradd -M -s /sbin/nologin -g parasoft -d $CATALINA_BASE ctp
+  else
+    useradd -M -s /bin/false -g parasoft -d $CATALINA_BASE ctp
+  fi
   mkdir -p $CATALINA_BASE/conf/Catalina/localhost
   chgrp -R parasoft $CATALINA_BASE
   chmod g+rwx $CATALINA_BASE
@@ -103,6 +107,12 @@ installTomcat() {
     cp ctp.sh /etc/init.d/
     chmod 755 /etc/init.d/ctp.sh
     update-rc.d ctp.sh defaults
+  elif [ -f /sbin/chkconfig ] ; then
+    echo "Using chkconfig to register Tomcat as a service"
+
+    cp ctp.sh /etc/init.d/ctp
+    chmod 755 /etc/init.d/ctp
+    /sbin/chkconfig ctp on
   fi
 
   if [ -f apache-tomcat-$TOMCAT_VERSION.tar.gz ]; then
@@ -174,11 +184,17 @@ configureIPTables() {
     echo iptables-persistent iptables-persistent/autosave_v6 boolean true | sudo debconf-set-selections
     apt-get -y install iptables-persistent
   elif [ -f /usr/bin/yum ] ; then 
-    echo "Using YUM package manager"
-    yum install -y iptables-services
-    systemctl enable iptables
+    if [ -f /bin/systemctl ] ; then
+      echo "Using YUM package manager"
+      yum install -y iptables-services
+      systemctl enable iptables
+    fi
     service iptables save
-    systemctl start iptables
+    if [ -f /bin/systemctl ] ; then
+      systemctl start iptables
+    else
+      service iptables restart
+    fi
   fi
   echo "==============================================="
 }

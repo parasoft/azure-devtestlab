@@ -1,18 +1,18 @@
 #!/bin/bash
 #
 ### BEGIN INIT INFO
-# Provides:          tomcat
-# Required-Start:    $remote_fs $syslog
-# Required-Stop:     $remore_fs $syslog
+# Provides:          cts
+# Required-Start:    $remote_fs $syslog ctp
+# Required-Stop:     $remore_fs $syslog ctp
 # Default-Start:     2 3 5
 # Default-Stop:      2 3 5
 # Short-Description: Apache Tomcat 8
 # Description:       start web server
 ### END INIT INFO
 #
-# description: Apache Tomcat init script
-# processname: tomcat  
-# chkconfig: 234 20 80  
+# description: Apache Tomcat init script for Parasoft CTS
+# processname: cts  
+# chkconfig: 234 40 60
 #
 #
 # Copyright (C) 2014 Miglen Evlogiev
@@ -34,7 +34,7 @@
 
 
 #Location of JAVA_HOME (bin files)
-export JAVA_HOME=/usr/oraclejdk/jdk1.8.0_92
+export JAVA_HOME=/usr/oraclejdk/jdk1.8.0_121
 
 #Add Java binary files to PATH
 export PATH=$JAVA_HOME/bin:$PATH
@@ -45,17 +45,23 @@ export CATALINA_HOME=/usr/local/tomcat
 #CATALINA_BASE is the location of the tomcat instance configuration
 export CATALINA_BASE=/var/tomcat/cts
 
+#CATALINA_OPTS are the Java VM arguments used when starting Tomcat
+export CATALINA_OPTS="-server -XX:+UseParallelGC"
+
+#JAVA_OPTS are the Java VM arguments used when both starting and shutting down Tomcat
+export JAVA_OPTS="-Djava.awt.headless=true -Djava.security.egd=file:/dev/./urandom"
+
 #TOMCAT_USER is the default user of tomcat
 export TOMCAT_USER=cts
- 
+
 #TOMCAT_USAGE is the message if this script is called without any options
 TOMCAT_USAGE="Usage: $0 {\e[00;32mstart\e[00m|\e[00;31mstop\e[00m|\e[00;31mkill\e[00m|\e[00;32mstatus\e[00m|\e[00;31mrestart\e[00m}"
- 
+
 #SHUTDOWN_WAIT is wait time in seconds for java proccess to stop
 SHUTDOWN_WAIT=20
  
 tomcat_pid() {
-        echo `ps -fe | grep $CATALINA_HOME | grep -v grep | tr -s " "|cut -d" " -f2`
+        echo `ps -fe | grep $CATALINA_BASE | grep -v grep | tr -s " "|cut -d" " -f2`
 }
  
 start() {
@@ -66,15 +72,33 @@ start() {
   else
     # Start tomcat
     echo -e "\e[00;32mStarting tomcat\e[00m"
+    totalk=$(awk '/^MemTotal:/{print $2}' /proc/meminfo)
+    if [ "$totalk" -gt "8388608" ]
+    then
+      JAVA_HEAP="-Xms2048M -Xmx2048M"
+    elif [ "$totalk" -gt "4194304" ]
+    then
+      JAVA_HEAP="-Xms1024M -Xmx1024M"
+    elif [ "$totalk" -gt "2097152" ]
+    then
+      JAVA_HEAP="-Xms768M -Xmx768M"
+    elif [ "$totalk" -gt "1048576" ]
+    then
+      JAVA_HEAP="-Xms512M -Xmx512M"
+    else
+      # request more memory than available so that SOAVirt won't start and only CTP will be running
+      JAVA_HEAP="-Xms1024M -Xmx1024M"
+    fi
+    export CATALINA_OPTS="$CATALINA_OPTS $JAVA_HEAP"
     #ulimit -n 100000
     #umask 007
     #/bin/su -p -s /bin/sh $TOMCAT_USER
         if [ `user_exists $TOMCAT_USER` = "1" ]
         then
-                /bin/su - $TOMCAT_USER -s /bin/sh -c $CATALINA_HOME/bin/startup.sh
+            /bin/su $TOMCAT_USER -s /bin/sh -c "cd $CATALINA_BASE; $CATALINA_HOME/bin/startup.sh"
         else
-                echo -e "\e[00;31mTomcat user $TOMCAT_USER does not exists. Starting with $(id)\e[00m"
-                sh $CATALINA_HOME/bin/startup.sh
+            echo -e "\e[00;31mTomcat user $TOMCAT_USER does not exists. Starting with $(id)\e[00m"
+            sh $CATALINA_HOME/bin/startup.sh
         fi
         status
   fi

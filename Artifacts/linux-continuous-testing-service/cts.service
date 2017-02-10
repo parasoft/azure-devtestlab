@@ -7,14 +7,16 @@ After=syslog.target network.target delay.service
 [Service]
 Type=forking
 
-Environment=JAVA_HOME=/usr/oraclejdk/jdk1.8.0_112
+Environment=JAVA_HOME=/usr/oraclejdk/jdk1.8.0_121
 Environment=CATALINA_PID=/var/tomcat/cts/temp/tomcat.pid
 Environment=CATALINA_HOME=/usr/local/tomcat
 Environment=CATALINA_BASE=/var/tomcat/cts
-Environment='CATALINA_OPTS=-Xms512M -Xmx1024M -server -XX:+UseParallelGC'
+Environment='CATALINA_OPTS=-Xms512M -Xmx512M -server -XX:+UseParallelGC'
 Environment='JAVA_OPTS=-Djava.awt.headless=true -Djava.security.egd=file:/dev/./urandom'
 
-ExecStart=/usr/local/tomcat/bin/startup.sh
+ExecStart=\
+    curl -f --silent -o - "http://localhost:8080/em/healthcheck" > /dev/null \
+    && /usr/local/tomcat/bin/startup.sh
 ExecStop=/bin/kill -15 $MAINPID
 
 User=cts

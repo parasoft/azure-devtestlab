@@ -3,10 +3,9 @@
 ###
 # Arguments:
 #
-# $1    Virtualize server name
-# $2    CTP base URL
-# $3    CTP username
-# $4    CTP password
+# $1    CTP base URL
+# $2    CTP username
+# $3    CTP password
 #
 ###
 
@@ -40,7 +39,13 @@ sed -i "s/^T_USER=.*/T_USER=$TDM_USERNAME/" /opt/DataRepositoryServer-linux-x86_
 sed -i "s/^T_PASS=.*/T_PASS=$TDM_PASSWORD/" /opt/DataRepositoryServer-linux-x86_64/server.sh
 
 groupadd parasoft
-useradd -M -g parasoft -d /opt/DataRepositoryServer-linux-x86_64 datarepo
+if [ -f /bin/nologin ] ; then
+  useradd -M -s /bin/nologin -g parasoft -d /opt/DataRepositoryServer-linux-x86_64 datarepo
+elif [ -f /sbin/nologin ] ; then
+  useradd -M -s /sbin/nologin -g parasoft -d /opt/DataRepositoryServer-linux-x86_64 datarepo
+else
+  useradd -M -s /bin/false -g parasoft -d /opt/DataRepositoryServer-linux-x86_64 datarepo
+fi
 chgrp parasoft $REPO_DIR
 chmod g+rwx $REPO_DIR
 chown -R datarepo:parasoft $REPO_DIR
@@ -59,6 +64,10 @@ elif [ -f /bin/systemctl ] ; then
     systemctl daemon-reload
     systemctl enable datarepo
 
+elif [ -f /sbin/chkconfig ] ; then
+    echo "Using chkconfig to register data repository as a service"
+    cp datarepo.sh /etc/init.d/datarepo
+    chkconfig datarepo on
 fi
 
 # echo "start Data Repository server"

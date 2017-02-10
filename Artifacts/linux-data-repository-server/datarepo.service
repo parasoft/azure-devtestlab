@@ -7,7 +7,9 @@ After=syslog.target network.target delay.service
 [Service]
 Type=forking
 
-ExecStart=/opt/DataRepositoryServer-linux-x86_64/server.sh start
+ExecStart=\
+    curl -f --silent -o - "http://localhost:8080/em/healthcheck" > /dev/null \
+    && /opt/DataRepositoryServer-linux-x86_64/server.sh start
 ExecStop=/bin/kill -15 $MAINPID
 
 User=datarepo

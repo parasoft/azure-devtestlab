@@ -23,7 +23,7 @@ CTP_USERNAME=$3
 CTP_PASSWORD=$4
 
 #JAVA_HOME points to the oracle java 8 binaries
-export JAVA_HOME=/usr/oraclejdk/jdk1.8.0_112
+export JAVA_HOME=/usr/oraclejdk/jdk1.8.0_121
 
 #CATALINA_HOME points to the tomcat library files
 export CATALINA_HOME=/usr/local/tomcat
@@ -83,21 +83,20 @@ installJava() {
     echo "Oracle JDK already installed"
     return 0
   fi
-  wget --quiet --no-check-certificate --no-cookies --header "Cookie: oraclelicense=accept-securebackup-cookie" -O jdk-8u112-linux-x64.tar.gz http://download.oracle.com/otn-pub/java/jdk/8u112-b15/jdk-8u112-linux-x64.tar.gz
+  wget --quiet --no-check-certificate --no-cookies --header "Cookie: oraclelicense=accept-securebackup-cookie" -O jdk-8u121-linux-x64.tar.gz http://download.oracle.com/otn-pub/java/jdk/8u121-b13/e9e7ea248e2c4826b92b3f075a80e441/jdk-8u121-linux-x64.tar.gz
   mkdir /usr/oraclejdk
-  tar -xvf jdk-8u112-linux-x64.tar.gz -C /usr/oraclejdk
-  echo "export JAVA_HOME=/usr/oraclejdk/jdk1.8.0_112" > /etc/profile.d/java.sh
-  if type -p java; then
-   version=$(java -version 2>&1 | awk -F '"' '/version/ {print $2}')
-   echo $version
-  fi
-  if [[ "$version" = "1.8.0_112"  ]]; then
+  tar -xvf jdk-8u121-linux-x64.tar.gz -C /usr/oraclejdk
+  echo "export JAVA_HOME=/usr/oraclejdk/jdk1.8.0_121" > /etc/profile.d/java.sh
+  source /etc/profile.d/java.sh
+  version=$($JAVA_HOME/bin/java -version 2>&1 | awk -F '"' '/version/ {print $2}')
+  echo $version
+  if [[ "$version" = "1.8.0_121"  ]]; then
    echo "Oracle JDK installation complete"
   else 
    echo "Oracle JDK installation failed" 
   fi
   echo "remove jdk tar file"
-  rm jdk-8u112-linux-x64.tar.gz
+  rm jdk-8u121-linux-x64.tar.gz
   echo "==============================================="
 }
 
@@ -115,8 +114,7 @@ installTomcat() {
     mv apache-tomcat-$TOMCAT_VERSION /usr/local/tomcat
   fi
   echo "creating CTS tomcat instance"
-  mkdir -p /var/tomcat/cts
-  echo "export CATALINA_BASE=/var/tomcat/cts" > /etc/profile.d/tomcat.sh
+  mkdir -p $CATALINA_BASE
   mkdir $CATALINA_BASE/conf
   mkdir $CATALINA_BASE/logs
   mkdir $CATALINA_BASE/temp
@@ -128,7 +126,13 @@ installTomcat() {
   cp -r $CATALINA_HOME/webapps/* $CATALINA_BASE/webapps/
   echo "configure CTS CATALINA_BASE permissions"
   groupadd parasoft
-  useradd -M -s /bin/nologin -g parasoft -d $CATALINA_BASE cts
+  if [ -f /bin/nologin ] ; then
+    useradd -M -s /bin/nologin -g parasoft -d $CATALINA_BASE cts
+  elif [ -f /sbin/nologin ] ; then
+    useradd -M -s /sbin/nologin -g parasoft -d $CATALINA_BASE cts
+  else
+    useradd -M -s /bin/false -g parasoft -d $CATALINA_BASE cts
+  fi
   mkdir -p $CATALINA_BASE/conf/Catalina/localhost
   chgrp -R parasoft $CATALINA_BASE
   chmod g+rwx $CATALINA_BASE
@@ -150,6 +154,12 @@ installTomcat() {
     cp cts.sh /etc/init.d/
     chmod 755 /etc/init.d/cts.sh
     update-rc.d cts.sh defaults
+  elif [ -f /sbin/chkconfig ] ; then
+    echo "Using chkconfig to register Tomcat as a service"
+
+    cp cts.sh /etc/init.d/cts
+    chmod 755 /etc/init.d/cts
+    /sbin/chkconfig cts on
   fi
 
 
@@ -190,7 +200,7 @@ installCTS() {
   sed -i "s/^#virtualize.license.use_network=.*/virtualize.license.use_network=true/" $VIRTUALIZE_HOME/WEB-INF/config.properties
   sed -i "s/^#virtualize.license.network.edition=.*/virtualize.license.network.edition=custom_edition/" $VIRTUALIZE_HOME/WEB-INF/config.properties
   sed -i "s/^#virtualize.license.custom_edition_features=.*/virtualize.license.custom_edition_features=Service Enabled, Performance, Extension Pack, Validate, Message Packs, Unlimited Hits\/Day, 1 Million Hits\/Day, 500000 Hits\/Day, 100000 Hits\/Day, 50000 Hits\/Day, 25000 Hits\/Day, 10000 Hits\/Day/" $VIRTUALIZE_HOME/WEB-INF/config.properties
-  sed -i "s/^#license.network.host=.*/license.network.host=23.99.9.131/" $VIRTUALIZE_HOME/WEB-INF/config.properties
+  sed -i "s/^#license.network.host=.*/license.network.host=localhost/" $VIRTUALIZE_HOME/WEB-INF/config.properties
   sed -i "s/^#license.network.port=.*/license.network.port=2002/" $VIRTUALIZE_HOME/WEB-INF/config.properties
 
   mkdir -p $VIRTUALIZE_HOME/workspace/VirtualAssets/logs/virtualize

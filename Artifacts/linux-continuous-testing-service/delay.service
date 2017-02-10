@@ -1,11 +1,11 @@
 # Systemd unit file for CTS delay
 [Unit]
-Description=Delay CTS startup for 2 minutes after starting CTP
+Description=Delay CTS startup for 30 seconds after starting CTP
 
 [Service]
 Type=oneshot
 
-ExecStart=/usr/bin/sleep 120
+ExecStart=/usr/bin/sleep 30
 
 User=cts
 Group=parasoft
