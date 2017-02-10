@@ -56,12 +56,12 @@ installTomcat() {
   echo "Installing CTP Tomcat instance"
   echo "==============================================="
 
-  TOMCAT_VERSION=8.0.39
+  TOMCAT_VERSION=8.0.41
   if [ -d /usr/local/tomcat ]; then
     echo "tomcat package already found in target directory"
   else 
     echo "Downloading and unpacking tomcat 8 tar"
-    curl --silent --location --remote-name http://mirror.nexcess.net/apache/tomcat/tomcat-8/v$TOMCAT_VERSION/bin/apache-tomcat-$TOMCAT_VERSION.tar.gz
+    curl --silent --location --remote-name http://archive.apache.org/dist/tomcat/tomcat-8/v$TOMCAT_VERSION/bin/apache-tomcat-$TOMCAT_VERSION.tar.gz
     tar xvzf apache-tomcat-$TOMCAT_VERSION.tar.gz
     mv apache-tomcat-$TOMCAT_VERSION /usr/local/tomcat
   fi
