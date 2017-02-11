@@ -46,7 +46,7 @@ export CATALINA_HOME=/usr/local/tomcat
 export CATALINA_BASE=/var/tomcat/cts
 
 #CATALINA_OPTS are the Java VM arguments used when starting Tomcat
-export CATALINA_OPTS="-server -XX:+UseParallelGC"
+export CATALINA_OPTS="-server -XX:+UseConcMarkSweepGC -XX:+UseParNewGC"
 
 #JAVA_OPTS are the Java VM arguments used when both starting and shutting down Tomcat
 export JAVA_OPTS="-Djava.awt.headless=true -Djava.security.egd=file:/dev/./urandom"
