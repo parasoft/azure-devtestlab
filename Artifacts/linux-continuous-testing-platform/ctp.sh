@@ -85,14 +85,9 @@ start() {
     elif [ "$totalk" -gt "1048576" ]
     then
       JAVA_HEAP="-Xms384M -Xmx384M -Xss512K"
-    elif [ "$totalk" -gt "524288" ]
-    then
-      rm $CATALINA_BASE/webapps/parabank.war
-      JAVA_HEAP="-Xms256M -Xmx256M -Xss256K"
     else
       rm $CATALINA_BASE/webapps/parabank.war
-      rm $CATALINA_BASE/webapps/pstsec.war
-      JAVA_HEAP="-Xms144M -Xmx144M -Xss228K"
+      JAVA_HEAP="-Xms256M -Xmx256M -Xss256K"
     fi
     export CATALINA_OPTS="$CATALINA_OPTS $JAVA_HEAP"
     #ulimit -n 100000
