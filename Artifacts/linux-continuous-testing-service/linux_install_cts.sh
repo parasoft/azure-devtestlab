@@ -23,7 +23,7 @@ CTP_USERNAME=$3
 CTP_PASSWORD=$4
 
 #JAVA_HOME points to the oracle java 8 binaries
-export JAVA_HOME=/usr/oraclejdk/jdk1.8.0_121
+export JAVA_HOME=/usr/oraclejdk/jdk1.8.0_131
 
 #CATALINA_HOME points to the tomcat library files
 export CATALINA_HOME=/usr/local/tomcat
@@ -83,20 +83,20 @@ installJava() {
     echo "Oracle JDK already installed"
     return 0
   fi
-  wget --quiet --no-check-certificate --no-cookies --header "Cookie: oraclelicense=accept-securebackup-cookie" -O jdk-8u121-linux-x64.tar.gz http://download.oracle.com/otn-pub/java/jdk/8u121-b13/e9e7ea248e2c4826b92b3f075a80e441/jdk-8u121-linux-x64.tar.gz
+  wget --quiet --no-check-certificate --no-cookies --header "Cookie: oraclelicense=accept-securebackup-cookie" -O jdk-8u131-linux-x64.tar.gz http://download.oracle.com/otn-pub/java/jdk/8u131-b11/d54c1d3a095b4ff2b6607d096fa80163/jdk-8u131-linux-x64.tar.gz
   mkdir /usr/oraclejdk
-  tar -xvf jdk-8u121-linux-x64.tar.gz -C /usr/oraclejdk
-  echo "export JAVA_HOME=/usr/oraclejdk/jdk1.8.0_121" > /etc/profile.d/java.sh
+  tar -xvf jdk-8u131-linux-x64.tar.gz -C /usr/oraclejdk
+  echo "export JAVA_HOME=/usr/oraclejdk/jdk1.8.0_131" > /etc/profile.d/java.sh
   source /etc/profile.d/java.sh
   version=$($JAVA_HOME/bin/java -version 2>&1 | awk -F '"' '/version/ {print $2}')
   echo $version
-  if [[ "$version" = "1.8.0_121"  ]]; then
+  if [[ "$version" = "1.8.0_131"  ]]; then
    echo "Oracle JDK installation complete"
   else 
    echo "Oracle JDK installation failed" 
   fi
   echo "remove jdk tar file"
-  rm jdk-8u121-linux-x64.tar.gz
+  rm jdk-8u131-linux-x64.tar.gz
   echo "==============================================="
 }
 
