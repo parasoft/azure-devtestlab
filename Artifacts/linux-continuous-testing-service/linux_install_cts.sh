@@ -104,7 +104,7 @@ installTomcat() {
   echo "Installing CTS Tomcat instance"
   echo "==============================================="
 
-  TOMCAT_VERSION=8.0.41
+  TOMCAT_VERSION=8.5.14
   if [ -d /usr/local/tomcat ]; then
     echo "tomcat package already found in target directory"
   else 
