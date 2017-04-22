@@ -40,6 +40,10 @@ export DATA_REPO_HOME=/opt/DataRepositoryServer-linux-x86_64
 export DATA_REPO_USER=datarepo
  
 start() {
+  echo -e "\e[00;31mWaiting for CTP to start up first\e[00m"
+  sleep 10
+  curl -f --silent -o - "http://localhost:8080/em/healthcheck" > /dev/null
+  sleep 20
   # Start Data Repository
   if [ `user_exists $DATA_REPO_USER` = "1" ]
   then

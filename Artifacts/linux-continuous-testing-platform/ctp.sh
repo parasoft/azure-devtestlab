@@ -116,6 +116,11 @@ start() {
             sleep ${DELAY}s
             DELAY=$((DELAY * 2))
         done
+        sleep 5
+        if [ -f $CATALINA_BASE/bin/setup.sh ] ; then
+            sh $CATALINA_BASE/bin/setup.sh
+            rm $CATALINA_BASE/bin/setup.sh
+        fi
         status
   fi
   return 0

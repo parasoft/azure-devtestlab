@@ -93,6 +93,10 @@ start() {
     #ulimit -n 100000
     #umask 007
     #/bin/su -p -s /bin/sh $TOMCAT_USER
+    echo -e "\e[00;31mWaiting for CTP to start up first\e[00m"
+    sleep 10
+    curl -f --silent -o - "http://localhost:8080/em/healthcheck" > /dev/null
+    sleep 20
         if [ `user_exists $TOMCAT_USER` = "1" ]
         then
             /bin/su $TOMCAT_USER -s /bin/sh -c "cd $CATALINA_BASE; $CATALINA_HOME/bin/startup.sh"
