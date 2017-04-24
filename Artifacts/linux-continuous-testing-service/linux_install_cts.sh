@@ -134,11 +134,11 @@ installTomcat() {
     useradd -M -s /bin/false -g parasoft -d $CATALINA_BASE cts
   fi
   mkdir -p $CATALINA_BASE/conf/Catalina/localhost
-  chgrp -R parasoft $CATALINA_BASE
+  chgrp -R parasoft $CATALINA_HOME
   chmod g+rwx $CATALINA_BASE
   chmod g+rwx $CATALINA_BASE/conf
   chmod g+r $CATALINA_BASE/conf/*
-  chown -R cts $CATALINA_BASE
+  chown -R cts:parasoft $CATALINA_BASE
 
   if [ -f /bin/systemctl ] ; then
     echo "Using Systemd to register CTS as a service"

@@ -89,11 +89,11 @@ installTomcat() {
     useradd -M -s /bin/false -g parasoft -d $CATALINA_BASE ctp
   fi
   mkdir -p $CATALINA_BASE/conf/Catalina/localhost
-  chgrp -R parasoft $CATALINA_BASE
+  chgrp -R parasoft $CATALINA_HOME
   chmod g+rwx $CATALINA_BASE
   chmod g+rwx $CATALINA_BASE/conf
   chmod g+r $CATALINA_BASE/conf/*
-  chown -R ctp $CATALINA_BASE
+  chown -R ctp:parasoft $CATALINA_BASE
 
   if [ -f /bin/systemctl ] ; then
     echo "Using Systemd to register Tomcat as a service"
