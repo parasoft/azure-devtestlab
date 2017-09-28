@@ -4,7 +4,7 @@
 IS_DEMO=$1
 
 #JAVA_HOME points to the oracle java 8 binaries
-export JAVA_HOME=/usr/oraclejdk/jdk1.8.0_131
+export JAVA_HOME=/usr/oraclejdk/jdk1.8.0_144
 
 #CATALINA_HOME points to the tomcat library files
 export CATALINA_HOME=/usr/local/tomcat
@@ -35,20 +35,20 @@ installJava() {
     echo "Oracle JDK already installed"
     return 0
   fi
-  wget --quiet --no-check-certificate --no-cookies --header "Cookie: oraclelicense=accept-securebackup-cookie" -O jdk-8u131-linux-x64.tar.gz http://download.oracle.com/otn-pub/java/jdk/8u131-b11/d54c1d3a095b4ff2b6607d096fa80163/jdk-8u131-linux-x64.tar.gz
+  wget --quiet --no-check-certificate --no-cookies --header "Cookie: oraclelicense=accept-securebackup-cookie" -O jdk-8u144-linux-x64.tar.gz http://download.oracle.com/otn-pub/java/jdk/8u144-b01/090f390dda5b47b9b721c7dfaa008135/jdk-8u144-linux-x64.tar.gz
   mkdir /usr/oraclejdk
-  tar -xvf jdk-8u131-linux-x64.tar.gz -C /usr/oraclejdk
-  echo "export JAVA_HOME=/usr/oraclejdk/jdk1.8.0_131" > /etc/profile.d/java.sh
+  tar -xvf jdk-8u144-linux-x64.tar.gz -C /usr/oraclejdk
+  echo "export JAVA_HOME=/usr/oraclejdk/jdk1.8.0_144" > /etc/profile.d/java.sh
   source /etc/profile.d/java.sh
   version=$($JAVA_HOME/bin/java -version 2>&1 | awk -F '"' '/version/ {print $2}')
   echo $version
-  if [[ "$version" = "1.8.0_131"  ]]; then
+  if [[ "$version" = "1.8.0_144"  ]]; then
    echo "Oracle JDK installation complete"
   else 
    echo "Oracle JDK installation failed" 
   fi
   echo "remove jdk tar file"
-  rm jdk-8u131-linux-x64.tar.gz
+  rm jdk-8u144-linux-x64.tar.gz
   echo "==============================================="
 }
 
@@ -56,7 +56,7 @@ installTomcat() {
   echo "Installing CTP Tomcat instance"
   echo "==============================================="
 
-  TOMCAT_VERSION=8.5.14
+  TOMCAT_VERSION=8.5.20
   if [ -d /usr/local/tomcat ]; then
     echo "tomcat package already found in target directory"
   else 
@@ -126,10 +126,10 @@ installCTP() {
   echo "Installing CTP"
   echo "==============================================="
   echo "Download CTP distribution"
-  curl --silent --location --remote-name http://parasoft.westus.cloudapp.azure.com/builds/parasoft_continuous_testing_platform_3.0.zip
+  curl --silent --location --remote-name http://parasoft.westus.cloudapp.azure.com/builds/parasoft_continuous_testing_platform_3.1.zip
   echo "Unzip CTP distribution"
   mkdir ctp_dist
-  unzip parasoft_continuous_testing_platform_3.0.zip -d ctp_dist/
+  unzip parasoft_continuous_testing_platform_3.1.zip -d ctp_dist/
   VIRTUALIZE_HOME=/usr/local/parasoft/virtualize
 
   echo "Copy CTP war files to Tomcat webapps"
@@ -148,7 +148,7 @@ installCTP() {
 
   echo "Remove temporary installation files"
   rm -rf ctp_dist
-  rm parasoft_continuous_testing_platform_3.0.zip
+  rm parasoft_continuous_testing_platform_3.1.zip
   echo "==============================================="
 }
 
