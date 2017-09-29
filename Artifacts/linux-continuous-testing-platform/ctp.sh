@@ -34,7 +34,7 @@
 
 
 #Location of JAVA_HOME (bin files)
-export JAVA_HOME=/usr/oraclejdk/jdk1.8.0_131
+export JAVA_HOME=/usr/oraclejdk/jdk1.8.0_144
 
 #Add Java binary files to PATH
 export PATH=$JAVA_HOME/bin:$PATH
