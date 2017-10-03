@@ -6,7 +6,7 @@ After=syslog.target network.target delay.service
 
 [Service]
 Type=forking
-
+TimeoutSec=300
 ExecStart=/opt/DataRepositoryServer-linux-x86_64/server.sh start
 ExecStop=/bin/kill -15 $MAINPID
 
