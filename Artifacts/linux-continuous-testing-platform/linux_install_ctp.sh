@@ -56,7 +56,7 @@ installTomcat() {
   echo "Installing CTP Tomcat instance"
   echo "==============================================="
 
-  TOMCAT_VERSION=8.5.20
+  TOMCAT_VERSION=8.5.27
   if [ -d /usr/local/tomcat ]; then
     echo "tomcat package already found in target directory"
   else 
