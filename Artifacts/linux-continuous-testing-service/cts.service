@@ -7,7 +7,7 @@ After=syslog.target network.target delay.service
 [Service]
 Type=forking
 TimeoutSec=300
-Environment=JAVA_HOME=/usr/oraclejdk/jdk1.8.0_162
+Environment=JAVA_HOME=/usr/oraclejdk/jdk1.8.0_181
 Environment=CATALINA_PID=/var/tomcat/cts/temp/tomcat.pid
 Environment=CATALINA_HOME=/usr/local/tomcat
 Environment=CATALINA_BASE=/var/tomcat/cts
