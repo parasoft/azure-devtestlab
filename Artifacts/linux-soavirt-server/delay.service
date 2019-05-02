@@ -1,0 +1,17 @@
+# Systemd unit file for SOAVirt delay
+[Unit]
+Description=Delay SOAVirt startup for 30 seconds after starting CTP
+
+[Service]
+Type=oneshot
+
+ExecStartPre=/usr/bin/sleep 30
+ExecStart=-/usr/bin/curl -f --silent -o - "http://localhost:8080/em/healthcheck"
+
+User=soavirt
+Group=parasoft
+
+WorkingDirectory=/var/tomcat/soavirt
+
+[Install]
+WantedBy=soavirt.service

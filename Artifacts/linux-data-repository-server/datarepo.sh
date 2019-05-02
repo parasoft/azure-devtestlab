@@ -2,8 +2,8 @@
 #
 ### BEGIN INIT INFO
 # Provides:          datarepo
-# Required-Start:    $remote_fs $syslog ctp cts
-# Required-Stop:     $remore_fs $syslog ctp cts
+# Required-Start:    $remote_fs $syslog ctp soavirt
+# Required-Stop:     $remore_fs $syslog ctp soavirt
 # Default-Start:     2 3 5
 # Default-Stop:      2 3 5
 # Short-Description: Data Repository

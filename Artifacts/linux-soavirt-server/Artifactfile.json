@@ -1,11 +1,11 @@
 {
   "$schema": "https://raw.githubusercontent.com/Azure/azure-devtestlab/master/schemas/2015-01-01/dtlArtifacts.json",
-  "title": "Service Virt. Engine",
+  "title": "SOAtest and Virtualize Server",
   "description": "Execution engine for Parasoft Service Virtualization for Linux",
   "tags": [
     "Parasoft",
     "Linux",
-    "Continuous Testing Service (CTS)",
+    "SOAtest and Virtualize",
     "Service Virtualization"
   ],
   "iconUri": "http://parasoft.westus.cloudapp.azure.com/parasoftArtifact.png",
@@ -14,33 +14,33 @@
     "name": {
       "type": "string",
       "displayName": "Name",
-      "description": "The name of the Virtualize server as it will appear in Environment Manager",
+      "description": "The name of the Virtualize server as it will appear in CTP",
       "allowEmpty": true,
       "defaultValue": "AzureVirtServer"
     },
     "ctpurl": {
       "type": "string",
       "displayName": "Base URL for Parasoft Continuous Testing Platform",
-      "description": "The Virtualize server will register itself with this Environment Manager",
+      "description": "The Virtualize server will register itself with this CTP",
       "allowEmpty": true,
       "defaultValue": "http://localhost:8080"
     },
     "ctpusername": {
       "type": "string",
       "displayName": "Service account username",
-      "description": "The Virtualize server use this account username when communicating with Environment Manager",
+      "description": "The Virtualize server use this account username when communicating with CTP",
       "allowEmpty": true,
       "defaultValue": "admin"
     },
     "ctppassword": {
       "type": "securestring",
       "displayName": "Service account password",
-      "description": "The Virtualize server use this account password when communicating with Environment Manager",
+      "description": "The Virtualize server use this account password when communicating with CTP",
       "allowEmpty": true,
       "defaultValue": "admin"
     }
   },
   "runCommand": {
-    "commandToExecute": "[concat('sh linux_install_cts.sh', ' \"', parameters('name'), '\" \"', parameters('ctpurl'), '\" \"', parameters('ctpusername'), '\" \"', parameters('ctppassword'), '\"')]"
+    "commandToExecute": "[concat('sh linux_install_soavirt.sh', ' \"', parameters('name'), '\" \"', parameters('ctpurl'), '\" \"', parameters('ctpusername'), '\" \"', parameters('ctppassword'), '\"')]"
   }
 }

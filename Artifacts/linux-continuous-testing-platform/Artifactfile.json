@@ -1,6 +1,6 @@
 {
   "$schema": "https://raw.githubusercontent.com/Azure/azure-devtestlab/master/schemas/2015-01-01/dtlArtifacts.json",
-  "title": "Environment Manager",
+  "title": "Continuous Testing Platform",
   "description": "Parasoft Envrionment Manager powered by the Continuous Testing Platform for Linux",
   "tags": [
     "Parasoft",

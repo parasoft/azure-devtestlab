@@ -1,7 +1,7 @@
 #!/bin/bash
 #
 ### BEGIN INIT INFO
-# Provides:          cts
+# Provides:          soavirt
 # Required-Start:    $remote_fs $syslog ctp
 # Required-Stop:     $remore_fs $syslog ctp
 # Default-Start:     2 3 5
@@ -10,8 +10,8 @@
 # Description:       start web server
 ### END INIT INFO
 #
-# description: Apache Tomcat init script for Parasoft CTS
-# processname: cts  
+# description: Apache Tomcat init script for Parasoft SOAVirt
+# processname: soavirt  
 # chkconfig: 234 40 60
 #
 #
@@ -43,7 +43,7 @@ export PATH=$JAVA_HOME/bin:$PATH
 export CATALINA_HOME=/usr/local/tomcat
 
 #CATALINA_BASE is the location of the tomcat instance configuration
-export CATALINA_BASE=/var/tomcat/cts
+export CATALINA_BASE=/var/tomcat/soavirt
 
 #CATALINA_OPTS are the Java VM arguments used when starting Tomcat
 export CATALINA_OPTS="-server -XX:+UseConcMarkSweepGC -XX:+UseParNewGC"
@@ -52,7 +52,7 @@ export CATALINA_OPTS="-server -XX:+UseConcMarkSweepGC -XX:+UseParNewGC"
 export JAVA_OPTS="-Djava.awt.headless=true -Djava.security.egd=file:/dev/./urandom"
 
 #TOMCAT_USER is the default user of tomcat
-export TOMCAT_USER=cts
+export TOMCAT_USER=soavirt
 
 #TOMCAT_USAGE is the message if this script is called without any options
 TOMCAT_USAGE="Usage: $0 {\e[00;32mstart\e[00m|\e[00;31mstop\e[00m|\e[00;31mkill\e[00m|\e[00;32mstatus\e[00m|\e[00;31mrestart\e[00m}"

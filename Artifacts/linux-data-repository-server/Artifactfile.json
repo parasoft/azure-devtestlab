@@ -6,29 +6,29 @@
     "Parasoft",
     "Linux",
     "Data Repository Server",
-    "Continuous Testing Platform (CTS)"
+    "Continuous Testing Platform (CTP)"
   ],
   "iconUri": "http://parasoft.westus.cloudapp.azure.com/parasoftArtifact.png",
   "targetOsType": "Linux",
   "parameters": {
     "tdmurl": {
       "type": "string",
-      "displayName": "Base URL for Parasoft Test Data Manager",
-      "description": "The data repository server will register itself with this Test Data Manager",
+      "displayName": "Base URL for Parasoft Continuous Testing Platform",
+      "description": "The data repository server will register itself with this CTP",
       "allowEmpty": true,
       "defaultValue": "http://localhost:8080"
     },
     "tdmusername": {
       "type": "string",
       "displayName": "Service account username",
-      "description": "The data repository server will use this username when communicating with Test Data Manager",
+      "description": "The data repository server will use this username when communicating with CTP",
       "allowEmpty": true,
       "defaultValue": "admin"
     },
     "tdmpassword": {
       "type": "securestring",
       "displayName": "Service account password",
-      "description": "The data repository server will use this password when communicating with Test Data Manager",
+      "description": "The data repository server will use this password when communicating with CTP",
       "allowEmpty": true,
       "defaultValue": "admin"
     }

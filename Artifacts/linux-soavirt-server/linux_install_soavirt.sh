@@ -28,8 +28,8 @@ export JAVA_HOME=/usr/lib/jvm/jre-1.8.0-openjdk
 #CATALINA_HOME points to the tomcat library files
 export CATALINA_HOME=/usr/local/tomcat
 
-#CATALINA_BASE points to the CTS tomcat instance
-export CATALINA_BASE=/var/tomcat/cts
+#CATALINA_BASE points to the SOAVirt tomcat instance
+export CATALINA_BASE=/var/tomcat/soavirt
 
 # parse the URL in bash from http://stackoverflow.com/questions/6174220/parse-url-in-shell-script
 # extract the protocol
@@ -106,7 +106,7 @@ installJava() {
 }
 
 installTomcat() {
-  echo "Installing CTS Tomcat instance"
+  echo "Installing SOAVirt Tomcat instance"
   echo "==============================================="
 
   TOMCAT_VERSION=8.5.40
@@ -118,7 +118,7 @@ installTomcat() {
     tar xvzf apache-tomcat-$TOMCAT_VERSION.tar.gz
     mv apache-tomcat-$TOMCAT_VERSION /usr/local/tomcat
   fi
-  echo "creating CTS tomcat instance"
+  echo "creating SOAVirt tomcat instance"
   mkdir -p $CATALINA_BASE
   mkdir $CATALINA_BASE/conf
   mkdir $CATALINA_BASE/logs
@@ -129,42 +129,42 @@ installTomcat() {
   cp $CATALINA_HOME/conf/server.xml $CATALINA_BASE/conf/
   cp $CATALINA_HOME/conf/web.xml $CATALINA_BASE/conf/
   cp -r $CATALINA_HOME/webapps/* $CATALINA_BASE/webapps/
-  echo "configure CTS CATALINA_BASE permissions"
+  echo "configure SOAVirt CATALINA_BASE permissions"
   groupadd parasoft
   if [ -f /bin/nologin ] ; then
-    useradd -M -s /bin/nologin -g parasoft -d $CATALINA_BASE cts
+    useradd -M -s /bin/nologin -g parasoft -d $CATALINA_BASE soavirt
   elif [ -f /sbin/nologin ] ; then
-    useradd -M -s /sbin/nologin -g parasoft -d $CATALINA_BASE cts
+    useradd -M -s /sbin/nologin -g parasoft -d $CATALINA_BASE soavirt
   else
-    useradd -M -s /bin/false -g parasoft -d $CATALINA_BASE cts
+    useradd -M -s /bin/false -g parasoft -d $CATALINA_BASE soavirt
   fi
   mkdir -p $CATALINA_BASE/conf/Catalina/localhost
   chgrp -R parasoft $CATALINA_HOME
   chmod g+rwx $CATALINA_BASE
   chmod g+rwx $CATALINA_BASE/conf
   chmod g+r $CATALINA_BASE/conf/*
-  chown -R cts:parasoft $CATALINA_BASE
+  chown -R soavirt:parasoft $CATALINA_BASE
 
   if [ -f /bin/systemctl ] ; then
-    echo "Using Systemd to register CTS as a service"
+    echo "Using Systemd to register SOAVirt as a service"
 
-    cp cts.service /etc/systemd/system/cts.service
+    cp soavirt.service /etc/systemd/system/soavirt.service
     cp delay.service /etc/systemd/system/delay.service
     systemctl daemon-reload
-    systemctl enable cts
+    systemctl enable soavirt
     systemctl enable delay
   elif [ -f /usr/sbin/update-rc.d ] ; then
-    echo "Using Update-rc to register CTS as a service"
+    echo "Using Update-rc to register SOAVirt as a service"
 
-    cp cts.sh /etc/init.d/
-    chmod 755 /etc/init.d/cts.sh
-    update-rc.d cts.sh defaults
+    cp soavirt.sh /etc/init.d/
+    chmod 755 /etc/init.d/soavirt.sh
+    update-rc.d soavirt.sh defaults
   elif [ -f /sbin/chkconfig ] ; then
     echo "Using chkconfig to register Tomcat as a service"
 
-    cp cts.sh /etc/init.d/cts
-    chmod 755 /etc/init.d/cts
-    /sbin/chkconfig cts on
+    cp soavirt.sh /etc/init.d/soavirt
+    chmod 755 /etc/init.d/soavirt
+    /sbin/chkconfig soavirt on
   fi
 
 
@@ -175,7 +175,7 @@ installTomcat() {
   echo "==============================================="
 }
 
-installCTS() {
+installSOAVirt() {
   echo "Installing SOAVirt war file"
   echo "==============================================="
   echo "Download SOAVirt distribution"
@@ -211,7 +211,7 @@ installCTS() {
   echo 'license.network.port=2002' >> $VIRTUALIZE_HOME/WEB-INF/config.properties
 
   mkdir -p $VIRTUALIZE_HOME/workspace/VirtualAssets/logs/virtualize
-  chown -R cts:parasoft $VIRTUALIZE_HOME
+  chown -R soavirt:parasoft $VIRTUALIZE_HOME
   echo "==============================================="
 }
 
@@ -220,29 +220,29 @@ startTomcat() {
   echo "Startup Tomcat"
   echo "==============================================="
   if [ -f /bin/systemctl ] ; then
-    systemctl start cts
+    systemctl start soavirt
   elif [ -f /usr/sbin/update-rc.d ] ; then
-    /etc/init.d/cts.sh start
+    /etc/init.d/soavirt.sh start
   else
-    su - cts -c $CATALINA_HOME/bin/startup.sh
+    su - soavirt -c $CATALINA_HOME/bin/startup.sh
   fi
-  echo "waiting for CTS startup"
+  echo "waiting for SOAVirt startup"
   curl --silent --location http://localhost:9080/
-  echo "CTS started"
+  echo "SOAVirt started"
   echo "==============================================="
 }
 
-#initalize download command utilities needed for CTS installation
+#initalize download command utilities needed for SOAVirt installation
 init
 
-#install oracle java 8 if not installed 
+#install OpenJDK 8 if not installed 
 installJava
 
-#install tomcat 8 if not installed and create CTS tomcat instance
+#install Tomcat 8 if not installed and create SOAVirt tomcat instance
 installTomcat
 
-#download CTS zip file and install in tomcat instance
-installCTS
+#download SOAVirt zip file and install in tomcat instance
+installSOAVirt
 
 #start tomcat service
 #startTomcat
