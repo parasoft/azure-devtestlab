@@ -61,7 +61,7 @@ installTomcat() {
   echo "Installing CTP Tomcat instance"
   echo "==============================================="
 
-  TOMCAT_VERSION=8.5.40
+  TOMCAT_VERSION=8.5.43
   if [ -d /usr/local/tomcat ]; then
     echo "tomcat package already found in target directory"
   else 
@@ -171,6 +171,7 @@ installParaBankDemo() {
 configureTomcatManager() {
   echo "Copy the Tomcat manager webapp to the CTP base"
   cp -r $CATALINA_HOME/webapps/manager $CATALINA_BASE/webapps/
+  cp context.xml $CATALINA_BASE/webapps/manager/META-INF/context.xml
   chown -R ctp $CATALINA_BASE/webapps/manager/
   echo "==============================================="
 }
@@ -235,10 +236,9 @@ installCTP
 #optionally download parabank.war and install in same tomcat as CTP
 if [[ "$IS_DEMO" = "true"  ]]; then
   installParaBankDemo
+  #configure tomcat for remote scripted deployment of war files
+  configureTomcatManager
 fi
-
-#configure tomcat for remote scripted deployment of war files
-configureTomcatManager
 
 #configure IP tables to forward port 80 to 8080
 configureIPTables

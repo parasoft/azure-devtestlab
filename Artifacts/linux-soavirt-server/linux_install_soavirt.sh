@@ -109,7 +109,7 @@ installTomcat() {
   echo "Installing SOAVirt Tomcat instance"
   echo "==============================================="
 
-  TOMCAT_VERSION=8.5.40
+  TOMCAT_VERSION=8.5.43
   if [ -d /usr/local/tomcat ]; then
     echo "tomcat package already found in target directory"
   else 
