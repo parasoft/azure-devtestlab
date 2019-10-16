@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pstsec-config>
+  <password-required>true</password-required>
+  <remote-authentication>
+    <enabled>true</enabled>
+    <host>localhost</host>
+    <port>8080</port>
+    <!--  
+    Option <protocol> indicates which scheme/protocol is used for remote authentication.
+    To set connection use 'http'. The default value is 'https'. 
+    -->
+    <protocol>http</protocol>
+
+  </remote-authentication>
+  
+  <!--
+    This option determines if a single sign on cookie will be generated.
+    To disable, comment out the 'pst-cookie' element.
+    To enable, uncomment the 'pst-cookie' element, then provide only one domain to copy the cookie to.
+      Examples:
+        <domain>companydomain.com</domain>
+        <domain>companydomain.co.uk</domain>
+        <domain>companydomain.org.jp</domain>
+  -->
+  <!-- <pst-cookie>
+    <domain>companydomain.com</domain>
+  </pst-cookie> -->
+  
+</pstsec-config>

@@ -140,6 +140,9 @@ installCTP() {
   echo "Copy CTP war files to Tomcat webapps"
   cp ctp_dist/pstsec.war $CATALINA_BASE/webapps/
   cp ctp_dist/licenseserver.war $CATALINA_BASE/webapps/
+  mkdir -p $CATALINA_BASE/LicenseServer/conf
+  cp ls.conf $CATALINA_BASE/LicenseServer/conf/
+  cp PSTSecConfig.xml  $CATALINA_BASE/LicenseServer/conf/
   mkdir $CATALINA_BASE/webapps/em
   unzip ctp_dist/em.war -d $CATALINA_BASE/webapps/em/
   cp license $CATALINA_BASE/webapps/em/
