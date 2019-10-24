@@ -202,13 +202,15 @@ installSOAVirt() {
   sed -i "s/^#env.manager.username=.*/env.manager.username=$CTP_USERNAME/" $VIRTUALIZE_HOME/WEB-INF/config.properties
   sed -i "s/^#env.manager.password=.*/env.manager.password=$CTP_PASSWORD/" $VIRTUALIZE_HOME/WEB-INF/config.properties
   sed -i "s/^#env.manager.notify=.*/env.manager.notify=true/" $VIRTUALIZE_HOME/WEB-INF/config.properties
+  sed -i "s/^#soatest.license.use_network=.*/soatest.license.use_network=true/" $VIRTUALIZE_HOME/WEB-INF/config.properties
+  sed -i "s/^#soatest.license.network.edition=.*/soatest.license.network.edition=custom_edition/" $VIRTUALIZE_HOME/WEB-INF/config.properties
+  sed -i "s/^#soatest.license.custom_edition_features=.*/soatest.license.custom_edition_features=RuleWizard, Command Line, SOA, Web, Server API Enabled, Jtest Connect, Stub Desktop, Stub Server, Message Packs, Advanced Test Generation 100 Users, Advanced Test Generation 25 Users, Advanced Test Generation 5 Users, Advanced Test Generation Desktop/" $VIRTUALIZE_HOME/WEB-INF/config.properties
   sed -i "s/^#virtualize.license.use_network=.*/virtualize.license.use_network=true/" $VIRTUALIZE_HOME/WEB-INF/config.properties
   sed -i "s/^#virtualize.license.network.edition=.*/virtualize.license.network.edition=custom_edition/" $VIRTUALIZE_HOME/WEB-INF/config.properties
   sed -i "s/^#virtualize.license.custom_edition_features=.*/virtualize.license.custom_edition_features=Service Enabled, Performance, Extension Pack, Validate, Message Packs, Unlimited Hits\/Day, 1 Million Hits\/Day, 500000 Hits\/Day, 100000 Hits\/Day, 50000 Hits\/Day, 25000 Hits\/Day, 10000 Hits\/Day/" $VIRTUALIZE_HOME/WEB-INF/config.properties
-  sed -i "s/^#license.network.host=.*//" $VIRTUALIZE_HOME/WEB-INF/config.properties
-  sed -i "s/^#license.network.port=.*//" $VIRTUALIZE_HOME/WEB-INF/config.properties
-  echo 'license.network.host=localhost' >> $VIRTUALIZE_HOME/WEB-INF/config.properties
-  echo 'license.network.port=2002' >> $VIRTUALIZE_HOME/WEB-INF/config.properties
+  sed -i "s/^#license.network.use.specified.server=.*/license.network.use.specified.server=true/" $VIRTUALIZE_HOME/WEB-INF/config.properties
+  sed -i "s/^#license.network.host=.*/license.network.host=localhost/" $VIRTUALIZE_HOME/WEB-INF/config.properties
+  sed -i "s/^#license.network.port=.*/license.network.port=8080/" $VIRTUALIZE_HOME/WEB-INF/config.properties
 
   mkdir -p $VIRTUALIZE_HOME/workspace/VirtualAssets/logs/virtualize
   chown -R soavirt:parasoft $VIRTUALIZE_HOME
