@@ -127,6 +127,7 @@ installTomcat() {
   mkdir $CATALINA_BASE/work
   cp $CATALINA_HOME/conf/logging.properties $CATALINA_BASE/conf/
   cp $CATALINA_HOME/conf/server.xml $CATALINA_BASE/conf/
+  cp $CATALINA_HOME/conf/tomcat-users.xml $CATALINA_BASE/conf/
   cp $CATALINA_HOME/conf/web.xml $CATALINA_BASE/conf/
   cp -r $CATALINA_HOME/webapps/* $CATALINA_BASE/webapps/
   echo "configure SOAVirt CATALINA_BASE permissions"
