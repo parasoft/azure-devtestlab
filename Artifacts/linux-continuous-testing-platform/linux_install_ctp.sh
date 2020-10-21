@@ -49,7 +49,7 @@ installJava() {
   source /etc/profile.d/java.sh
   version=$($JAVA_HOME/bin/java -version 2>&1 | awk -F '"' '/version/ {print $2}')
   echo $version
-  if [[ "$version" = "1.8.0_252"  ]]; then
+  if [[ "$version" = "1.8.0_262"  ]]; then
    echo "OpenJDK installation complete"
   else 
    echo "OpenJDK installation failed"
@@ -61,12 +61,12 @@ installTomcat() {
   echo "Installing CTP Tomcat instance"
   echo "==============================================="
 
-  TOMCAT_VERSION=8.5.54
+  TOMCAT_VERSION=9.0.39
   if [ -d /usr/local/tomcat ]; then
     echo "tomcat package already found in target directory"
   else 
-    echo "Downloading and unpacking tomcat 8 tar"
-    curl --silent --location --remote-name http://archive.apache.org/dist/tomcat/tomcat-8/v$TOMCAT_VERSION/bin/apache-tomcat-$TOMCAT_VERSION.tar.gz
+    echo "Downloading and unpacking tomcat 9 tar"
+    curl --silent --location --remote-name https://archive.apache.org/dist/tomcat/tomcat-9/v$TOMCAT_VERSION/bin/apache-tomcat-$TOMCAT_VERSION.tar.gz
     tar xvzf apache-tomcat-$TOMCAT_VERSION.tar.gz
     mv apache-tomcat-$TOMCAT_VERSION /usr/local/tomcat
   fi
@@ -104,6 +104,7 @@ installTomcat() {
     echo "Using Systemd to register Tomcat as a service"
 
     cp ctp.service /etc/systemd/system/ctp.service
+    chmod 664 /etc/systemd/system/ctp.service
     systemctl daemon-reload
     systemctl enable ctp
   elif [ -f /usr/sbin/update-rc.d ] ; then
@@ -121,7 +122,7 @@ installTomcat() {
   fi
 
   if [ -f apache-tomcat-$TOMCAT_VERSION.tar.gz ]; then
-    echo "remove tomcat 8 tar"
+    echo "remove tomcat 9 tar"
     rm apache-tomcat-$TOMCAT_VERSION.tar.gz
   fi
   echo "==============================================="
@@ -231,7 +232,7 @@ init
 #install oracle java 8 if not installed 
 installJava
 
-#install tomcat 8 if not installed and create CTP tomcat instance
+#install tomcat 9 if not installed and create CTP tomcat instance
 installTomcat
 
 #download CTP zip file and install in tomcat instance
