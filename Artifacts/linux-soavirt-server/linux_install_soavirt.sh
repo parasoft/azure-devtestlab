@@ -182,13 +182,13 @@ installSOAVirt() {
   echo "Installing SOAVirt war file"
   echo "==============================================="
   echo "Download SOAVirt distribution"
-  curl --silent --location --remote-name http://parasoft.westus.cloudapp.azure.com/builds/parasoft_soavirt_server_9.10.war
+  curl --silent --location --remote-name http://parasoft.westus.cloudapp.azure.com/builds/parasoft_soavirt_server.war
 
   echo "Extract SOAVirt webapp"
   VIRTUALIZE_HOME=/usr/local/parasoft/virtualize
   mkdir -p $VIRTUALIZE_HOME
-  unzip parasoft_soavirt_server_9.10.war -d $VIRTUALIZE_HOME
-  rm parasoft_soavirt_server_9.10.war
+  unzip parasoft_soavirt_server.war -d $VIRTUALIZE_HOME
+  rm parasoft_soavirt_server.war
 
   echo "Configure Tomcat to deploy SOAVirt webapp"
   echo "<Context docBase=\"$VIRTUALIZE_HOME\" path=\"\" reloadable=\"true\" />" > $CATALINA_BASE/conf/Catalina/localhost/ROOT.xml
