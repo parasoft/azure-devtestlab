@@ -49,7 +49,7 @@ installJava() {
   source /etc/profile.d/java.sh
   version=$($JAVA_HOME/bin/java -version 2>&1 | awk -F '"' '/version/ {print $2}')
   echo $version
-  if [[ "$version" = "1.8.0_262"  ]]; then
+  if [[ "$version" = "1.8.0_265"  ]]; then
    echo "OpenJDK installation complete"
   else 
    echo "OpenJDK installation failed"
@@ -62,13 +62,16 @@ installTomcat() {
   echo "==============================================="
 
   TOMCAT_VERSION=9.0.39
-  if [ -d /usr/local/tomcat ]; then
+  if [ -d $CATALINA_HOME ]; then
     echo "tomcat package already found in target directory"
   else 
     echo "Downloading and unpacking tomcat 9 tar"
     curl --silent --location --remote-name https://archive.apache.org/dist/tomcat/tomcat-9/v$TOMCAT_VERSION/bin/apache-tomcat-$TOMCAT_VERSION.tar.gz
     tar xvzf apache-tomcat-$TOMCAT_VERSION.tar.gz
-    mv apache-tomcat-$TOMCAT_VERSION /usr/local/tomcat
+    mv apache-tomcat-$TOMCAT_VERSION $CATALINA_HOME
+    if [ -f /usr/sbin/restorecon ] ; then
+      sudo /usr/sbin/restorecon -R -v $CATALINA_HOME/bin
+    fi
   fi
   echo "creating CTP tomcat instance"
   mkdir -p $CATALINA_BASE
@@ -104,7 +107,7 @@ installTomcat() {
     echo "Using Systemd to register Tomcat as a service"
 
     cp ctp.service /etc/systemd/system/ctp.service
-    chmod 664 /etc/systemd/system/ctp.service
+    chmod 644 /etc/systemd/system/ctp.service
     systemctl daemon-reload
     systemctl enable ctp
   elif [ -f /usr/sbin/update-rc.d ] ; then

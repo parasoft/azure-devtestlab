@@ -61,6 +61,7 @@ elif [ -f /bin/systemctl ] ; then
     echo "Using Systemd to register data repository as a service"
 
     cp datarepo.service /etc/systemd/system/datarepo.service
+    chmod 644 /etc/systemd/system/datarepo.service
     systemctl daemon-reload
     systemctl enable datarepo
 
