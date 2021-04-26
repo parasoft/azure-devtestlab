@@ -4,6 +4,7 @@ Description=Apache Tomcat Web Application Container
 After=syslog.target network.target
 
 [Service]
+TimeoutStartSec=300
 Type=forking
 
 Environment=JAVA_HOME=/usr/lib/jvm/jre-1.8.0-openjdk
@@ -14,7 +15,7 @@ Environment='CATALINA_OPTS=-Xms768M -Xmx768M -server -XX:+UseConcMarkSweepGC -XX
 Environment='JAVA_OPTS=-Djava.awt.headless=true -Djava.security.egd=file:/dev/./urandom'
 
 ExecStart=/usr/local/tomcat/bin/startup.sh
-ExecStop=/bin/kill -15 $MAINPID
+ExecStop=/usr/local/tomcat/bin/shutdown.sh
 
 User=ctp
 Group=parasoft
