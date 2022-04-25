@@ -3,8 +3,8 @@
 #cmd line argument that specifies to install ParaBank demo
 IS_DEMO=$1
 
-#JAVA_HOME points to the OpenJDK 8 binaries
-export JAVA_HOME=/usr/lib/jvm/jre-1.8.0-openjdk
+#JAVA_HOME points to the OpenJDK 11 binaries
+export JAVA_HOME=/usr/lib/jvm/jre-11-openjdk
 
 #CATALINA_HOME points to the tomcat library files
 export CATALINA_HOME=/usr/local/tomcat
@@ -31,25 +31,25 @@ init() {
 installJava() {
   echo "Installing OpenJDK"
   echo "==============================================="
-  if [ -d /usr/lib/jvm/jre-1.8.0-openjdk ]; then
+  if [ -d /usr/lib/jvm/jre-11-openjdk ]; then
     echo "OpenJDK already installed"
     return 0
   fi
   if [ -f /usr/bin/apt ] ; then
     echo "Using APT package manager"
 
-    apt-get -y install openjdk-8-jre
+    apt-get -y install openjdk-11-jdk
 
   elif [ -f /usr/bin/yum ] ; then
     echo "Using YUM package manager"
 
-    yum install -y java-1.8.0-openjdk
+    yum install -y java-11-openjdk
   fi
-  echo "export JAVA_HOME=/usr/lib/jvm/jre-1.8.0-openjdk" > /etc/profile.d/java.sh
+  echo "export JAVA_HOME=/usr/lib/jvm/jre-11-openjdk" > /etc/profile.d/java.sh
   source /etc/profile.d/java.sh
   version=$($JAVA_HOME/bin/java -version 2>&1 | awk -F '"' '/version/ {print $2}')
   echo $version
-  if [[ "$version" = "1.8.0_312"  ]]; then
+  if [[ "$version" = "11.0.14.1"  ]]; then
    echo "OpenJDK installation complete"
   else 
    echo "OpenJDK installation failed"
@@ -61,7 +61,7 @@ installTomcat() {
   echo "Installing CTP Tomcat instance"
   echo "==============================================="
 
-  TOMCAT_VERSION=9.0.56
+  TOMCAT_VERSION=9.0.62
   if [ -d $CATALINA_HOME ]; then
     echo "tomcat package already found in target directory"
   else 
@@ -232,7 +232,7 @@ startTomcat() {
 #initalize download command utilities needed for CTP installation
 init
 
-#install oracle java 8 if not installed 
+#install oracle java 11 if not installed 
 installJava
 
 #install tomcat 9 if not installed and create CTP tomcat instance

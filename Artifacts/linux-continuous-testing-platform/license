@@ -1,3 +1,2 @@
 ctp.license.use_network=true
-license.network.host=localhost
-license.network.port=8080
+license.network.url=http\://localhost\:8080

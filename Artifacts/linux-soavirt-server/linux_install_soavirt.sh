@@ -22,8 +22,8 @@ CTP_USERNAME=$3
 #cmd line argument password used when trying to connect to CTP
 CTP_PASSWORD=$4
 
-#JAVA_HOME points to the OpenJDK 8 binaries
-export JAVA_HOME=/usr/lib/jvm/jre-1.8.0-openjdk
+#JAVA_HOME points to the OpenJDK 11 binaries
+export JAVA_HOME=/usr/lib/jvm/jre-11-openjdk
 
 #CATALINA_HOME points to the tomcat library files
 export CATALINA_HOME=/usr/local/tomcat
@@ -79,25 +79,25 @@ init() {
 installJava() {
   echo "Installing OpenJDK"
   echo "==============================================="
-  if [ -d /usr/lib/jvm/jre-1.8.0-openjdk ]; then
+  if [ -d /usr/lib/jvm/jre-11-openjdk ]; then
     echo "OpenJDK already installed"
     return 0
   fi
   if [ -f /usr/bin/apt ] ; then
     echo "Using APT package manager"
 
-    apt-get -y install openjdk-8-jre
+    apt-get -y install openjdk-11-jdk
 
   elif [ -f /usr/bin/yum ] ; then
     echo "Using YUM package manager"
 
-    yum install -y java-1.8.0-openjdk
+    yum install -y java-11-openjdk
   fi
-  echo "export JAVA_HOME=/usr/lib/jvm/jre-1.8.0-openjdk" > /etc/profile.d/java.sh
+  echo "export JAVA_HOME=/usr/lib/jvm/jre-11-openjdk" > /etc/profile.d/java.sh
   source /etc/profile.d/java.sh
   version=$($JAVA_HOME/bin/java -version 2>&1 | awk -F '"' '/version/ {print $2}')
   echo $version
-  if [[ "$version" = "1.8.0_312"  ]]; then
+  if [[ "$version" = "11.0.14.1"  ]]; then
    echo "OpenJDK installation complete"
   else 
    echo "OpenJDK installation failed"
@@ -109,7 +109,7 @@ installTomcat() {
   echo "Installing SOAVirt Tomcat instance"
   echo "==============================================="
 
-  TOMCAT_VERSION=9.0.56
+  TOMCAT_VERSION=9.0.62
   if [ -d $CATALINA_HOME ]; then
     echo "tomcat package already found in target directory"
   else 
@@ -215,8 +215,7 @@ installSOAVirt() {
   sed -i "s/^#virtualize.license.network.edition=.*/virtualize.license.network.edition=custom_edition/" $VIRTUALIZE_HOME/WEB-INF/config.properties
   sed -i "s/^#virtualize.license.custom_edition_features=.*/virtualize.license.custom_edition_features=Service Enabled, Performance, Extension Pack, Validate, Message Packs, Unlimited Hits\/Day, 1 Million Hits\/Day, 500000 Hits\/Day, 100000 Hits\/Day, 50000 Hits\/Day, 25000 Hits\/Day, 10000 Hits\/Day/" $VIRTUALIZE_HOME/WEB-INF/config.properties
   sed -i "s/^#license.network.use.specified.server=.*/license.network.use.specified.server=true/" $VIRTUALIZE_HOME/WEB-INF/config.properties
-  sed -i "s/^#license.network.host=.*/license.network.host=localhost/" $VIRTUALIZE_HOME/WEB-INF/config.properties
-  sed -i "s/^#license.network.port=.*/license.network.port=8080/" $VIRTUALIZE_HOME/WEB-INF/config.properties
+  sed -i "s!^#license.network.url=.*!license.network.url=http\://localhost\:8080!" $VIRTUALIZE_HOME/WEB-INF/config.properties
 
   mkdir -p $VIRTUALIZE_HOME/workspace/VirtualAssets/logs/virtualize
   chown -R soavirt:parasoft $VIRTUALIZE_HOME
@@ -243,7 +242,7 @@ startTomcat() {
 #initalize download command utilities needed for SOAVirt installation
 init
 
-#install OpenJDK 8 if not installed 
+#install OpenJDK 11 if not installed 
 installJava
 
 #install Tomcat 9 if not installed and create SOAVirt tomcat instance
