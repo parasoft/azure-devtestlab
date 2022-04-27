@@ -87,12 +87,16 @@ installJava() {
     echo "Using APT package manager"
 
     apt-get -y install openjdk-11-jdk
-
+  elif [ -f /usr/bin/amazon-linux-extras ] ; then
+    echo "Using Amazon Linux Extras"
+	
+	amazon-linux-extras install java-openjdk11
   elif [ -f /usr/bin/yum ] ; then
     echo "Using YUM package manager"
 
     yum install -y java-11-openjdk
   fi
+
   echo "export JAVA_HOME=/usr/lib/jvm/jre-11-openjdk" > /etc/profile.d/java.sh
   source /etc/profile.d/java.sh
   version=$($JAVA_HOME/bin/java -version 2>&1 | awk -F '"' '/version/ {print $2}')
