@@ -139,6 +139,8 @@ installCTP() {
   echo "==============================================="
   echo "Download CTP distribution"
   curl --silent --location --remote-name http://parasoft.westus.cloudapp.azure.com/builds/parasoft_continuous_testing_platform.zip
+  echo "Download licenseserver.war"
+  curl --silent --location --remote-name http://parasoft.westus.cloudapp.azure.com/builds/licenseserver.war
   echo "Unzip CTP distribution"
   mkdir ctp_dist
   unzip parasoft_continuous_testing_platform.zip -d ctp_dist/
@@ -146,7 +148,7 @@ installCTP() {
 
   echo "Copy CTP war files to Tomcat webapps"
   cp ctp_dist/pstsec.war $CATALINA_BASE/webapps/
-  cp ctp_dist/licenseserver.war $CATALINA_BASE/webapps/
+  cp licenseserver.war $CATALINA_BASE/webapps/
   mkdir -p $CATALINA_BASE/LicenseServer/conf
   cp ls.conf $CATALINA_BASE/LicenseServer/conf/
   cp PSTSecConfig.xml  $CATALINA_BASE/LicenseServer/conf/
