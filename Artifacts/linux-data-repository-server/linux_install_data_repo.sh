@@ -46,6 +46,7 @@ elif [ -f /sbin/nologin ] ; then
 else
   useradd -M -s /bin/false -g parasoft -d /opt/DataRepositoryServer-linux-x86_64 datarepo
 fi
+cp server.sh $REPO_DIR
 chgrp parasoft $REPO_DIR
 chmod g+rwx $REPO_DIR
 chown -R datarepo:parasoft $REPO_DIR
