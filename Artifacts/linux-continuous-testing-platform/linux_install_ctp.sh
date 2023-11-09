@@ -52,11 +52,6 @@ installJava() {
   source /etc/profile.d/java.sh
   version=$($JAVA_HOME/bin/java -version 2>&1 | awk -F '"' '/version/ {print $2}')
   echo $version
-  if [[ "$version" = "11.0.19"  ]]; then
-   echo "OpenJDK installation complete"
-  else 
-   echo "OpenJDK installation failed"
-  fi
   echo "==============================================="
 }
 
@@ -64,7 +59,7 @@ installTomcat() {
   echo "Installing CTP Tomcat instance"
   echo "==============================================="
 
-  TOMCAT_VERSION=9.0.78
+  TOMCAT_VERSION=9.0.82
   if [ -d $CATALINA_HOME ]; then
     echo "tomcat package already found in target directory"
   else 
