@@ -49,7 +49,7 @@ export CATALINA_BASE=/var/tomcat/ctp
 export CATALINA_OPTS="-server -XX:+UseConcMarkSweepGC -XX:+UseParNewGC"
 
 #JAVA_OPTS are the Java VM arguments used when both starting and shutting down Tomcat
-export JAVA_OPTS="-Djava.awt.headless=true -Djava.security.egd=file:/dev/./urandom"
+export JAVA_OPTS="-Djava.awt.headless=true -Djava.security.egd=file:/dev/./urandom -Dparasoft.legacy.protocol.enabled=true"
 
 #TOMCAT_USER is the default user of tomcat
 export TOMCAT_USER=ctp
