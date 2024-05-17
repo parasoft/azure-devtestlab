@@ -12,7 +12,7 @@ Environment=CATALINA_PID=/var/tomcat/ctp/temp/tomcat.pid
 Environment=CATALINA_HOME=/usr/local/tomcat
 Environment=CATALINA_BASE=/var/tomcat/ctp
 Environment='CATALINA_OPTS=-Xms768M -Xmx768M -server -Dorg.apache.cxf.stax.allowInsecureParser=true'
-Environment='JAVA_OPTS=-Djava.awt.headless=true -Djava.security.egd=file:/dev/./urandom'
+Environment='JAVA_OPTS=-Djava.awt.headless=true -Djava.security.egd=file:/dev/./urandom -Dparasoft.legacy.protocol.enabled=true'
 
 ExecStart=/usr/local/tomcat/bin/startup.sh
 ExecStop=/usr/local/tomcat/bin/shutdown.sh

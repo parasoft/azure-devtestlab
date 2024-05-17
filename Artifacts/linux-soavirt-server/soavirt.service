@@ -12,7 +12,7 @@ Environment=CATALINA_PID=/var/tomcat/soavirt/temp/tomcat.pid
 Environment=CATALINA_HOME=/usr/local/tomcat
 Environment=CATALINA_BASE=/var/tomcat/soavirt
 Environment='CATALINA_OPTS=-Xms768M -Xmx768M -server'
-Environment='JAVA_OPTS=-Djava.awt.headless=true -Djava.security.egd=file:/dev/./urandom'
+Environment='JAVA_OPTS=-Djava.awt.headless=true -Djava.security.egd=file:/dev/./urandom -Dparasoft.legacy.protocol.enabled=true'
 
 ExecStart=/usr/local/tomcat/bin/startup.sh
 ExecStop=/bin/kill -15 $MAINPID
