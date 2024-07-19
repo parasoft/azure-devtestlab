@@ -22,8 +22,8 @@ CTP_USERNAME=$3
 #cmd line argument password used when trying to connect to CTP
 CTP_PASSWORD=$4
 
-#JAVA_HOME points to the OpenJDK 11 binaries
-export JAVA_HOME=/usr/lib/jvm/jre-11-openjdk
+#JAVA_HOME points to the OpenJDK 17 binaries
+export JAVA_HOME=/usr/lib/jvm/jre-17-openjdk
 
 #CATALINA_HOME points to the tomcat library files
 export CATALINA_HOME=/usr/local/tomcat
@@ -79,25 +79,25 @@ init() {
 installJava() {
   echo "Installing OpenJDK"
   echo "==============================================="
-  if [ -d /usr/lib/jvm/jre-11-openjdk ]; then
+  if [ -d /usr/lib/jvm/jre-17-openjdk ]; then
     echo "OpenJDK already installed"
     return 0
   fi
   if [ -f /usr/bin/apt ] ; then
     echo "Using APT package manager"
 
-    apt-get -y install openjdk-11-jdk
+    apt-get -y install openjdk-17-jdk
   elif [ -f /usr/bin/amazon-linux-extras ] ; then
     echo "Using Amazon Linux Extras"
 	
-	amazon-linux-extras install java-openjdk11
+	amazon-linux-extras install java-openjdk17
   elif [ -f /usr/bin/yum ] ; then
     echo "Using YUM package manager"
 
-    yum install -y java-11-openjdk
+    yum install -y java-17-openjdk
   fi
 
-  echo "export JAVA_HOME=/usr/lib/jvm/jre-11-openjdk" > /etc/profile.d/java.sh
+  echo "export JAVA_HOME=/usr/lib/jvm/jre-17-openjdk" > /etc/profile.d/java.sh
   source /etc/profile.d/java.sh
   version=$($JAVA_HOME/bin/java -version 2>&1 | awk -F '"' '/version/ {print $2}')
   echo $version
@@ -108,12 +108,12 @@ installTomcat() {
   echo "Installing SOAVirt Tomcat instance"
   echo "==============================================="
 
-  TOMCAT_VERSION=9.0.82
+  TOMCAT_VERSION=10.1.26
   if [ -d $CATALINA_HOME ]; then
     echo "tomcat package already found in target directory"
   else 
-    echo "Downloading and unpacking tomcat 9 tar"
-    curl --silent --location --remote-name https://archive.apache.org/dist/tomcat/tomcat-9/v$TOMCAT_VERSION/bin/apache-tomcat-$TOMCAT_VERSION.tar.gz
+    echo "Downloading and unpacking tomcat 10 tar"
+    curl --silent --location --remote-name https://archive.apache.org/dist/tomcat/tomcat-10/v$TOMCAT_VERSION/bin/apache-tomcat-$TOMCAT_VERSION.tar.gz
     tar xvzf apache-tomcat-$TOMCAT_VERSION.tar.gz
     mv apache-tomcat-$TOMCAT_VERSION $CATALINA_HOME
     if [ -f /usr/sbin/restorecon ] ; then
@@ -174,7 +174,7 @@ installTomcat() {
 
 
   if [ -f apache-tomcat-$TOMCAT_VERSION.tar.gz ]; then
-    echo "remove tomcat 9 tar"
+    echo "remove tomcat 10 tar"
     rm apache-tomcat-$TOMCAT_VERSION.tar.gz
   fi
   echo "==============================================="
@@ -241,10 +241,10 @@ startTomcat() {
 #initalize download command utilities needed for SOAVirt installation
 init
 
-#install OpenJDK 11 if not installed 
+#install OpenJDK 17 if not installed 
 installJava
 
-#install Tomcat 9 if not installed and create SOAVirt tomcat instance
+#install Tomcat 10 if not installed and create SOAVirt tomcat instance
 installTomcat
 
 #download SOAVirt zip file and install in tomcat instance

@@ -6,7 +6,7 @@
 # Required-Stop:     $remore_fs $syslog ctp
 # Default-Start:     2 3 5
 # Default-Stop:      2 3 5
-# Short-Description: Apache Tomcat 8
+# Short-Description: Apache Tomcat 10
 # Description:       start web server
 ### END INIT INFO
 #
@@ -34,7 +34,7 @@
 
 
 #Location of JAVA_HOME (bin files)
-export JAVA_HOME=/usr/lib/jvm/jre-11-openjdk
+export JAVA_HOME=/usr/lib/jvm/jre-17-openjdk
 
 #Add Java binary files to PATH
 export PATH=$JAVA_HOME/bin:$PATH
