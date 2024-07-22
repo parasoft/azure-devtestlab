@@ -190,8 +190,8 @@ configureIPTables() {
   echo "Configure iptables to forward port 80 to 8080"
   echo "==============================================="
 
-  iptables -A PREROUTING -t nat -i eth0 -p tcp --dport 80 -j REDIRECT --to-port 8080
-  iptables -A PREROUTING -t nat -i eth0 -p tcp --dport 443 -j REDIRECT --to-port 8443
+  sudo iptables -A PREROUTING -t nat -i eth0 -p tcp --dport 80 -j REDIRECT --to-port 8080
+  sudo iptables -A PREROUTING -t nat -i eth0 -p tcp --dport 443 -j REDIRECT --to-port 8443
 
   if [ -f /usr/bin/apt ] ; then
     echo "Using APT package manager"
