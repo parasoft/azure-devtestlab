@@ -88,9 +88,9 @@ installJava() {
 
     apt-get -y install openjdk-17-jdk
   elif [ -f /usr/bin/amazon-linux-extras ] ; then
-    echo "Using Amazon Linux Extras"
-	
-	amazon-linux-extras install java-openjdk17
+    echo "Using Amazon Corretto java-17"
+
+  yum install -y java-17-amazon-corretto-devel
   elif [ -f /usr/bin/yum ] ; then
     echo "Using YUM package manager"
 
