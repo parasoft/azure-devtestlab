@@ -59,7 +59,7 @@ installTomcat() {
   echo "Installing CTP Tomcat instance"
   echo "==============================================="
 
-  TOMCAT_VERSION=10.1.26
+  TOMCAT_VERSION=10.1.31
   if [ -d $CATALINA_HOME ]; then
     echo "tomcat package already found in target directory"
   else 
