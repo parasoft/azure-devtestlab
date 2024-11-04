@@ -1,2 +1,2 @@
 ctp.license.use_network=true
-license.network.url=http\://localhost\:8080
+license.network.url=https\://localhost\:8443
