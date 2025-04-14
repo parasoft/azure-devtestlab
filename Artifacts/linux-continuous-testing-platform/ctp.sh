@@ -6,7 +6,7 @@
 # Required-Stop:     $remore_fs $syslog
 # Default-Start:     2 3 5
 # Default-Stop:      2 3 5
-# Short-Description: Apache Tomcat 8
+# Short-Description: Apache Tomcat 10
 # Description:       start web server
 ### END INIT INFO
 #
