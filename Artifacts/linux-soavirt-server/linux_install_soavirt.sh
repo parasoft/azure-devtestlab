@@ -16,7 +16,7 @@ VIRTUALIZE_SERVER_NAME=$1
 #cmd line argument points to CTP server
 CTP_BASE_URL=$2
 
-#cmd line argument username used when trying to connect to CTP 
+#cmd line argument username used when trying to connect to CTP
 CTP_USERNAME=$3
 
 #cmd line argument password used when trying to connect to CTP
@@ -67,7 +67,7 @@ init() {
 
     apt-get -y install zip unzip
 
-  elif [ -f /usr/bin/yum ] ; then 
+  elif [ -f /usr/bin/yum ] ; then
     echo "Using YUM package manager"
 
     yum clean all
@@ -108,10 +108,10 @@ installTomcat() {
   echo "Installing SOAVirt Tomcat instance"
   echo "==============================================="
 
-  TOMCAT_VERSION=10.1.43
+  TOMCAT_VERSION=10.1.47
   if [ -d $CATALINA_HOME ]; then
     echo "tomcat package already found in target directory"
-  else 
+  else
     echo "Downloading and unpacking tomcat 10 tar"
     curl --silent --location --remote-name https://archive.apache.org/dist/tomcat/tomcat-10/v$TOMCAT_VERSION/bin/apache-tomcat-$TOMCAT_VERSION.tar.gz
     tar xvzf apache-tomcat-$TOMCAT_VERSION.tar.gz
@@ -241,7 +241,7 @@ startTomcat() {
 #initalize download command utilities needed for SOAVirt installation
 init
 
-#install OpenJDK 17 if not installed 
+#install OpenJDK 17 if not installed
 installJava
 
 #install Tomcat 10 if not installed and create SOAVirt tomcat instance

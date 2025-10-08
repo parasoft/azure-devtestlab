@@ -19,7 +19,7 @@ init() {
 
     apt-get -y install zip unzip
 
-  elif [ -f /usr/bin/yum ] ; then 
+  elif [ -f /usr/bin/yum ] ; then
     echo "Using YUM package manager"
 
     yum clean all
@@ -59,10 +59,10 @@ installTomcat() {
   echo "Installing CTP Tomcat instance"
   echo "==============================================="
 
-  TOMCAT_VERSION=10.1.43
+  TOMCAT_VERSION=10.1.47
   if [ -d $CATALINA_HOME ]; then
     echo "tomcat package already found in target directory"
-  else 
+  else
     echo "Downloading and unpacking tomcat 10 tar"
     curl --silent --location --remote-name https://archive.apache.org/dist/tomcat/tomcat-10/v$TOMCAT_VERSION/bin/apache-tomcat-$TOMCAT_VERSION.tar.gz
     tar xvzf apache-tomcat-$TOMCAT_VERSION.tar.gz
@@ -199,7 +199,7 @@ configureIPTables() {
     echo iptables-persistent iptables-persistent/autosave_v4 boolean true | sudo debconf-set-selections
     echo iptables-persistent iptables-persistent/autosave_v6 boolean true | sudo debconf-set-selections
     apt-get -y install iptables-persistent
-  elif [ -f /usr/bin/yum ] ; then 
+  elif [ -f /usr/bin/yum ] ; then
     if [ -f /bin/systemctl ] ; then
       echo "Using YUM package manager"
       yum install -y iptables-services
@@ -234,7 +234,7 @@ startTomcat() {
 #initalize download command utilities needed for CTP installation
 init
 
-#install oracle java 17 if not installed 
+#install oracle java 17 if not installed
 installJava
 
 #install tomcat 10 if not installed and create CTP tomcat instance
