@@ -215,6 +215,9 @@ installSOAVirt() {
   sed -i "s/^#virtualize.license.custom_edition_features=.*/virtualize.license.custom_edition_features=Service Enabled, Performance, Extension Pack, Validate, Message Packs, Unlimited Hits\/Day, 1 Million Hits\/Day, 500000 Hits\/Day, 100000 Hits\/Day, 50000 Hits\/Day, 25000 Hits\/Day, 10000 Hits\/Day/" $VIRTUALIZE_HOME/WEB-INF/config.properties
   sed -i "s/^#license.network.use.specified.server=.*/license.network.use.specified.server=true/" $VIRTUALIZE_HOME/WEB-INF/config.properties
   sed -i "s!^#license.network.url=.*!license.network.url=https\://localhost\:8443!" $VIRTUALIZE_HOME/WEB-INF/config.properties
+  sed -i "s/^#license.network.user=.*/license.network.user=admin/" $VIRTUALIZE_HOME/WEB-INF/config.properties
+  sed -i "s/^#license.network.password=.*/license.network.password=$CTP_PASSWORD/" $VIRTUALIZE_HOME/WEB-INF/config.properties
+  sed -i "s/^#license.network.auth.enabled=.*/license.network.auth.enabled=true/" $VIRTUALIZE_HOME/WEB-INF/config.properties
 
   mkdir -p $VIRTUALIZE_HOME/workspace/VirtualAssets/logs/virtualize
   chown -R soavirt:parasoft $VIRTUALIZE_HOME

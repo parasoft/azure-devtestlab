@@ -28,6 +28,24 @@ init() {
   fi
 }
 
+isAmazonEC2instance() {
+    # Try IMDSv2 (secure version)
+    TOKEN=$(curl -s -X PUT "http://169.254.169.254/latest/api/token" \
+        -H "X-aws-ec2-metadata-token-ttl-seconds: 60" 2>/dev/null)
+
+    if [ -n "$TOKEN" ]; then
+        # IMDSv2 succeeded → definitely EC2
+        return 0
+    fi
+
+    # Fall back to IMDSv1 check
+    if curl -s --connect-timeout 1 http://169.254.169.254/latest/meta-data/ >/dev/null 2>&1; then
+        return 0
+    fi
+
+    return 1
+}
+
 installJava() {
   echo "Installing OpenJDK"
   echo "==============================================="
@@ -39,7 +57,7 @@ installJava() {
     echo "Using APT package manager"
 
     apt-get -y install openjdk-17-jdk
-  elif [ -f /usr/bin/amazon-linux-extras ] ; then
+  elif [ isAmazonEC2instance ] ; then
     echo "Using Amazon Corretto java-17"
 
   yum install -y java-17-amazon-corretto-devel
