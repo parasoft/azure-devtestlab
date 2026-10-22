@@ -108,12 +108,12 @@ installTomcat() {
   echo "Installing SOAVirt Tomcat instance"
   echo "==============================================="
 
-  TOMCAT_VERSION=10.1.54
+  TOMCAT_VERSION=11.0.27
   if [ -d $CATALINA_HOME ]; then
     echo "tomcat package already found in target directory"
   else
-    echo "Downloading and unpacking tomcat 10 tar"
-    curl --silent --location --remote-name https://archive.apache.org/dist/tomcat/tomcat-10/v$TOMCAT_VERSION/bin/apache-tomcat-$TOMCAT_VERSION.tar.gz
+    echo "Downloading and unpacking tomcat 11 tar"
+    curl --silent --location --remote-name https://archive.apache.org/dist/tomcat/tomcat-11/v$TOMCAT_VERSION/bin/apache-tomcat-$TOMCAT_VERSION.tar.gz
     tar xvzf apache-tomcat-$TOMCAT_VERSION.tar.gz
     mv apache-tomcat-$TOMCAT_VERSION $CATALINA_HOME
     if [ -f /usr/sbin/restorecon ] ; then
@@ -174,7 +174,7 @@ installTomcat() {
 
 
   if [ -f apache-tomcat-$TOMCAT_VERSION.tar.gz ]; then
-    echo "remove tomcat 10 tar"
+    echo "remove tomcat 11 tar"
     rm apache-tomcat-$TOMCAT_VERSION.tar.gz
   fi
   echo "==============================================="
@@ -247,7 +247,7 @@ init
 #install OpenJDK 17 if not installed
 installJava
 
-#install Tomcat 10 if not installed and create SOAVirt tomcat instance
+#install Tomcat 11 if not installed and create SOAVirt tomcat instance
 installTomcat
 
 #download SOAVirt zip file and install in tomcat instance
